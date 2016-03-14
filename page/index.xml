@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Coding Discourse</title>
-    <link>https://rlguarino.com/page/</link>
+    <link>https://rlguarino.github.io/page/</link>
     <description>Recent content in Pages on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Tue, 30 Sep 2014 22:50:40 -0400</lastBuildDate>
-    <atom:link href="https://rlguarino.com/page/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.github.io/page/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About</title>
-      <link>https://rlguarino.com/page/about/</link>
+      <link>https://rlguarino.github.io/page/about/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/about/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/me.jpg&#34; alt=&#34;Me&#34; /&gt;&lt;/p&gt;
+      <guid>https://rlguarino.github.io/page/about/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/me.jpg&#34; alt=&#34;Me&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I am Ross Guarino. I am a recent Computer Science student at &lt;a href=&#34;http://rit.edu&#34;&gt;Rochester Institute of Technology&lt;/a&gt; and a member of &lt;a href=&#34;http://csh.rit.edu&#34; title=&#34;CSH&#34;&gt;Computer Science House&lt;/a&gt;. I enjoy doing &lt;a href=&#34;https://rlguarino.com/projects&#34;&gt;projects&lt;/a&gt; in my spare time as a means to learn new things. I have a special interest in distributed systems, backend applications, the outdoors, and operating systems design.&lt;/p&gt;
+&lt;p&gt;I am Ross Guarino. I am a recent Computer Science student at &lt;a href=&#34;http://rit.edu&#34;&gt;Rochester Institute of Technology&lt;/a&gt; and a member of &lt;a href=&#34;http://csh.rit.edu&#34; title=&#34;CSH&#34;&gt;Computer Science House&lt;/a&gt;. I enjoy doing &lt;a href=&#34;https://rlguarino.github.io/projects&#34;&gt;projects&lt;/a&gt; in my spare time as a means to learn new things. I have a special interest in distributed systems, backend applications, the outdoors, and operating systems design.&lt;/p&gt;
 
 &lt;p&gt;Check out my code on &lt;a href=&#34;http://github.com/rlguarino&#34;&gt;GitHub&lt;/a&gt; and my resume and experience on &lt;a href=&#34;http://www.linkedin.com/pub/ross-guarino/58/799/435/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -26,13 +26,13 @@
     
     <item>
       <title>Projects</title>
-      <link>https://rlguarino.com/page/projects/</link>
+      <link>https://rlguarino.github.io/page/projects/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/projects/</guid>
+      <guid>https://rlguarino.github.io/page/projects/</guid>
       <description>
 
-&lt;h2 id=&#34;μkernel-projects-restos:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;&lt;a href=&#34;https://rlguarino.com/projects/restos&#34;&gt;μKernel&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;μkernel-projects-restos:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;&lt;a href=&#34;https://rlguarino.github.io/projects/restos&#34;&gt;μKernel&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;A Micro Kernel operating system that provides a simple REST/Http interface.&lt;/p&gt;
 
@@ -66,11 +66,11 @@
     
     <item>
       <title>Resume</title>
-      <link>https://rlguarino.com/page/resume/</link>
+      <link>https://rlguarino.github.io/page/resume/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/resume/</guid>
-      <description>&lt;p&gt;I am looking for interesting work opportunities, If you&amp;rsquo;re hiring a copy of my resume can be found &lt;a href=&#34;https://rlguarino.com/files/Ross_Guarino_Resume.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+      <guid>https://rlguarino.github.io/page/resume/</guid>
+      <description>&lt;p&gt;I am looking for interesting work opportunities, If you&amp;rsquo;re hiring a copy of my resume can be found &lt;a href=&#34;https://rlguarino.github.io/files/Ross_Guarino_Resume.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

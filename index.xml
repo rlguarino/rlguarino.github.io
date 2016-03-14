@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Coding Discourse</title>
-    <link>https://rlguarino.com/</link>
+    <link>https://rlguarino.github.io/</link>
     <description>Recent content on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Sun, 28 Feb 2016 10:10:16 -0800</lastBuildDate>
-    <atom:link href="https://rlguarino.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>REST OS</title>
-      <link>https://rlguarino.com/projects/restos/</link>
+      <link>https://rlguarino.github.io/projects/restos/</link>
       <pubDate>Sun, 28 Feb 2016 10:10:16 -0800</pubDate>
       
-      <guid>https://rlguarino.com/projects/restos/</guid>
+      <guid>https://rlguarino.github.io/projects/restos/</guid>
       <description>
 
 &lt;p&gt;The Rest Operating System is a MicroKernel Operating System where the primary form of interacting with the kernel is through a HTTP REST-like syscall interface. The Kernel is as small as possible, most functionality is provided by kernel modules.&lt;/p&gt;
@@ -52,10 +52,10 @@
     
     <item>
       <title>PowerShell Reload Path</title>
-      <link>https://rlguarino.com/post/powershell-reload/</link>
+      <link>https://rlguarino.github.io/post/powershell-reload/</link>
       <pubDate>Thu, 11 Feb 2016 22:39:17 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/powershell-reload/</guid>
+      <guid>https://rlguarino.github.io/post/powershell-reload/</guid>
       <description>
 
 &lt;p&gt;I&amp;rsquo;ve started to write code to solve the little problems that annoy or slow me more than once, instead of complaining. One of these slowdowns comes from working with open source projects and installing command line utilities on Windows. I manage a C:\users\rlguarino\ProgramFiles\ directory for programs I&amp;rsquo;ve built from source or installed using an archive. Anything that is not installed using some package manager or an .mis lives here.&lt;/p&gt;
@@ -107,10 +107,10 @@ function ReloadPath
     
     <item>
       <title>Learning to Write</title>
-      <link>https://rlguarino.com/post/writing/</link>
+      <link>https://rlguarino.github.io/post/writing/</link>
       <pubDate>Thu, 11 Feb 2016 22:26:42 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/writing/</guid>
+      <guid>https://rlguarino.github.io/post/writing/</guid>
       <description>&lt;p&gt;I am a horrible writer and a Scriptophobe (fear of writing). I have spent the better part of the last five years earning a technical degree. In those five years I have read countless lines of code, endless pages of tiny serifed typeface and countless 80x80 pages of mono-space of documentation with the occasional piece of ascii art. I experience anxiety when I watch other people read my writing. When I do write English, I fear that what I write does not portray what it is that I am trying to get across or that my opinion is not worth sharing in the first place.&lt;/p&gt;
 
 &lt;p&gt;Over the past 5 years I’ve become convinced that technical skill is not what makes great programmers great. Of course being a successful programmer requires a significant amount of technical knowledge and ability but it also requires a significant amount of communication.&lt;/p&gt;
@@ -131,17 +131,17 @@ function ReloadPath
     
     <item>
       <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems</title>
-      <link>https://rlguarino.com/post/trafficgeneration/</link>
+      <link>https://rlguarino.github.io/post/trafficgeneration/</link>
       <pubDate>Tue, 16 Dec 2014 15:30:39 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/trafficgeneration/</guid>
+      <guid>https://rlguarino.github.io/post/trafficgeneration/</guid>
       <description>
 
 &lt;p&gt;For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &amp;ldquo;Intellignt&amp;rdquo; requirement of the class. We named the project Terrier.&lt;/p&gt;
 
 &lt;p&gt;Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
 
 &lt;p&gt;The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.&lt;/p&gt;
 
@@ -197,10 +197,10 @@ function ReloadPath
     
     <item>
       <title>Simulating Students Procrastination Behavior</title>
-      <link>https://rlguarino.com/post/simulatingstudents/</link>
+      <link>https://rlguarino.github.io/post/simulatingstudents/</link>
       <pubDate>Wed, 10 Dec 2014 11:25:32 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/simulatingstudents/</guid>
+      <guid>https://rlguarino.github.io/post/simulatingstudents/</guid>
       <description>
 
 &lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/d3/3.5.1/d3.min.js&#34;&gt; &lt;/script&gt;
@@ -319,7 +319,7 @@ type Person struct{
 
 &lt;p&gt;I used a pattern I have used a lot recently. I have found this pattern very powerful and extremely applicable. The design pattern I followed is called the pipeline pattern which is extremely easy to implement in golang. For each person in the simulation I spin up a goroutine that simulates that student going through each day in the semester outputting state of each tick on a result channel, which is fanned in and analyzed by the main goroutine and turned into graphs and statistics. Using this model I am able to run as many simulations at the same time as possible while decreasing the overhead of synchronizing the different running components because interactions between them are minimal.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -743,13 +743,13 @@ d3.csv(&#34;/files/data/students/non-split-grade.csv&#34;, function(error, data)
     
     <item>
       <title>About</title>
-      <link>https://rlguarino.com/page/about/</link>
+      <link>https://rlguarino.github.io/page/about/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/about/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/me.jpg&#34; alt=&#34;Me&#34; /&gt;&lt;/p&gt;
+      <guid>https://rlguarino.github.io/page/about/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/me.jpg&#34; alt=&#34;Me&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I am Ross Guarino. I am a recent Computer Science student at &lt;a href=&#34;http://rit.edu&#34;&gt;Rochester Institute of Technology&lt;/a&gt; and a member of &lt;a href=&#34;http://csh.rit.edu&#34; title=&#34;CSH&#34;&gt;Computer Science House&lt;/a&gt;. I enjoy doing &lt;a href=&#34;https://rlguarino.com/projects&#34;&gt;projects&lt;/a&gt; in my spare time as a means to learn new things. I have a special interest in distributed systems, backend applications, the outdoors, and operating systems design.&lt;/p&gt;
+&lt;p&gt;I am Ross Guarino. I am a recent Computer Science student at &lt;a href=&#34;http://rit.edu&#34;&gt;Rochester Institute of Technology&lt;/a&gt; and a member of &lt;a href=&#34;http://csh.rit.edu&#34; title=&#34;CSH&#34;&gt;Computer Science House&lt;/a&gt;. I enjoy doing &lt;a href=&#34;https://rlguarino.github.io/projects&#34;&gt;projects&lt;/a&gt; in my spare time as a means to learn new things. I have a special interest in distributed systems, backend applications, the outdoors, and operating systems design.&lt;/p&gt;
 
 &lt;p&gt;Check out my code on &lt;a href=&#34;http://github.com/rlguarino&#34;&gt;GitHub&lt;/a&gt; and my resume and experience on &lt;a href=&#34;http://www.linkedin.com/pub/ross-guarino/58/799/435/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -757,13 +757,13 @@ d3.csv(&#34;/files/data/students/non-split-grade.csv&#34;, function(error, data)
     
     <item>
       <title>Projects</title>
-      <link>https://rlguarino.com/page/projects/</link>
+      <link>https://rlguarino.github.io/page/projects/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/projects/</guid>
+      <guid>https://rlguarino.github.io/page/projects/</guid>
       <description>
 
-&lt;h2 id=&#34;μkernel-projects-restos:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;&lt;a href=&#34;https://rlguarino.com/projects/restos&#34;&gt;μKernel&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;μkernel-projects-restos:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;&lt;a href=&#34;https://rlguarino.github.io/projects/restos&#34;&gt;μKernel&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;A Micro Kernel operating system that provides a simple REST/Http interface.&lt;/p&gt;
 
@@ -797,20 +797,20 @@ d3.csv(&#34;/files/data/students/non-split-grade.csv&#34;, function(error, data)
     
     <item>
       <title>Resume</title>
-      <link>https://rlguarino.com/page/resume/</link>
+      <link>https://rlguarino.github.io/page/resume/</link>
       <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
       
-      <guid>https://rlguarino.com/page/resume/</guid>
-      <description>&lt;p&gt;I am looking for interesting work opportunities, If you&amp;rsquo;re hiring a copy of my resume can be found &lt;a href=&#34;https://rlguarino.com/files/Ross_Guarino_Resume.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+      <guid>https://rlguarino.github.io/page/resume/</guid>
+      <description>&lt;p&gt;I am looking for interesting work opportunities, If you&amp;rsquo;re hiring a copy of my resume can be found &lt;a href=&#34;https://rlguarino.github.io/files/Ross_Guarino_Resume.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Welcome</title>
-      <link>https://rlguarino.com/post/first/</link>
+      <link>https://rlguarino.github.io/post/first/</link>
       <pubDate>Mon, 29 Sep 2014 10:16:27 -0400</pubDate>
       
-      <guid>https://rlguarino.com/post/first/</guid>
+      <guid>https://rlguarino.github.io/post/first/</guid>
       <description>&lt;p&gt;Hello I&amp;rsquo;m Ross,&lt;/p&gt;
 
 &lt;p&gt;Welcome to my site. This is where I will be recoding the thoughts and adventures in my life that I find worthy of being written down. Please feel free to leave feedback, I am always looking for good criticism and discussions.&lt;/p&gt;

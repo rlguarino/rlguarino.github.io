@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Go on Coding Discourse</title>
-    <link>https://rlguarino.com/tags/go/</link>
+    <link>https://rlguarino.github.io/tags/go/</link>
     <description>Recent content in Go on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Tue, 16 Dec 2014 15:30:39 -0500</lastBuildDate>
-    <atom:link href="https://rlguarino.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems</title>
-      <link>https://rlguarino.com/post/trafficgeneration/</link>
+      <link>https://rlguarino.github.io/post/trafficgeneration/</link>
       <pubDate>Tue, 16 Dec 2014 15:30:39 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/trafficgeneration/</guid>
+      <guid>https://rlguarino.github.io/post/trafficgeneration/</guid>
       <description>
 
 &lt;p&gt;For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &amp;ldquo;Intellignt&amp;rdquo; requirement of the class. We named the project Terrier.&lt;/p&gt;
 
 &lt;p&gt;Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
 
 &lt;p&gt;The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.&lt;/p&gt;
 
@@ -78,10 +78,10 @@
     
     <item>
       <title>Simulating Students Procrastination Behavior</title>
-      <link>https://rlguarino.com/post/simulatingstudents/</link>
+      <link>https://rlguarino.github.io/post/simulatingstudents/</link>
       <pubDate>Wed, 10 Dec 2014 11:25:32 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/simulatingstudents/</guid>
+      <guid>https://rlguarino.github.io/post/simulatingstudents/</guid>
       <description>
 
 &lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/d3/3.5.1/d3.min.js&#34;&gt; &lt;/script&gt;
@@ -200,7 +200,7 @@ type Person struct{
 
 &lt;p&gt;I used a pattern I have used a lot recently. I have found this pattern very powerful and extremely applicable. The design pattern I followed is called the pipeline pattern which is extremely easy to implement in golang. For each person in the simulation I spin up a goroutine that simulates that student going through each day in the semester outputting state of each tick on a result channel, which is fanned in and analyzed by the main goroutine and turned into graphs and statistics. Using this model I am able to run as many simulations at the same time as possible while decreasing the overhead of synchronizing the different running components because interactions between them are minimal.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 

@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine Learning on Coding Discourse</title>
-    <link>https://rlguarino.com/tags/machine-learning/</link>
+    <link>https://rlguarino.github.io/tags/machine-learning/</link>
     <description>Recent content in Machine Learning on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Tue, 16 Dec 2014 15:30:39 -0500</lastBuildDate>
-    <atom:link href="https://rlguarino.com/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems</title>
-      <link>https://rlguarino.com/post/trafficgeneration/</link>
+      <link>https://rlguarino.github.io/post/trafficgeneration/</link>
       <pubDate>Tue, 16 Dec 2014 15:30:39 -0500</pubDate>
       
-      <guid>https://rlguarino.com/post/trafficgeneration/</guid>
+      <guid>https://rlguarino.github.io/post/trafficgeneration/</guid>
       <description>
 
 &lt;p&gt;For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &amp;ldquo;Intellignt&amp;rdquo; requirement of the class. We named the project Terrier.&lt;/p&gt;
 
 &lt;p&gt;Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
 
 &lt;p&gt;The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.&lt;/p&gt;
 

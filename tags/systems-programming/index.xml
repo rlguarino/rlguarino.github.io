@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Systems Programming on Coding Discourse</title>
-    <link>https://rlguarino.com/tags/systems-programming/</link>
+    <link>https://rlguarino.github.io/tags/systems-programming/</link>
     <description>Recent content in Systems Programming on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Sun, 28 Feb 2016 10:10:16 -0800</lastBuildDate>
-    <atom:link href="https://rlguarino.com/tags/systems-programming/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.github.io/tags/systems-programming/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>REST OS</title>
-      <link>https://rlguarino.com/projects/restos/</link>
+      <link>https://rlguarino.github.io/projects/restos/</link>
       <pubDate>Sun, 28 Feb 2016 10:10:16 -0800</pubDate>
       
-      <guid>https://rlguarino.com/projects/restos/</guid>
+      <guid>https://rlguarino.github.io/projects/restos/</guid>
       <description>
 
 &lt;p&gt;The Rest Operating System is a MicroKernel Operating System where the primary form of interacting with the kernel is through a HTTP REST-like syscall interface. The Kernel is as small as possible, most functionality is provided by kernel modules.&lt;/p&gt;
