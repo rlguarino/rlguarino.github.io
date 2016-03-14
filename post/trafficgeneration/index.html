@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems &middot; Ross Guarino</title>
+        <meta name="description" content="Generating fake traffic data for machine learning.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.15" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://rlguarino.com/css/normalize.css">
+        <link rel="stylesheet" href="https://rlguarino.com/css/highlight.css">
+        <link rel="stylesheet" href="https://rlguarino.com/css/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Coding Discourse" href="https://rlguarino.com/">Coding Discourse</a>
+                            </h1>
+                        
+                        <a class="button-square" href="https://rlguarino.com/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/rlguarino">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/rlguarino">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://www.linkedin.com/in/rlguarino">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Google+" title="Google+" href="https://plus.google.com/u/0/&#43;RossGuarino">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/page/projects/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Resume" href="/page/resume/">Resume</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Generation Network Traffic for Training Intelligent Intrusion Detection Systems</h1>
+    
+        <p class="post-description" itemprop="description">Generating fake traffic data for machine learning.</p>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2014-12-16" itemprop="datePublished">Tue, Dec 16, 2014</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="http://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://plus.google.com/u/0/&#43;RossGuarino" itemprop="url" rel="author">Ross Guarino</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    
+
+<p>For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &ldquo;Intellignt&rdquo; requirement of the class. We named the project Terrier.</p>
+
+<p>Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.</p>
+
+<p><img src="/images/trafficgen/Architecture.svg" alt="Architecturee" height=500></p>
+
+<p>The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.</p>
+
+<h2 id="generating-traffic-data:7395cc3ccf531a224e4d67b16e99758e">Generating Traffic Data</h2>
+
+<p>There are three different main ways to generate traffic data the looks realistic.</p>
+
+<ol>
+<li>Generate packets by superimposing sets of captured packet data.</li>
+<li>Create generator functions manually to implement common protocols.</li>
+<li>Create mathematical generator models from captured packet data.</li>
+</ol>
+
+<h3 id="method-1:7395cc3ccf531a224e4d67b16e99758e">Method 1</h3>
+
+<p>Method one takes already existing packet traces and picks packets from them and changes some of the headers to produce logical flow and synthesizes a fake packet set. This method superimposes traffic data sets onto each other to create more variety in the traffic than what we started with. This has the benefit of capturing every protocol, even ones we don&rsquo;t think of with real latency in between the packets.</p>
+
+<h3 id="method-2:7395cc3ccf531a224e4d67b16e99758e">Method 2</h3>
+
+<p>Method two involves writing code to generate valid communication streams between two clients for every protocol that we might see during a scan. This method will require intimate knowledge of how each protocol works in order to accurately generate traffic data. If we don&rsquo;t implement enough protocols or if we have bugs in our implementations then the neural network will be trained on data that does not accurately resemble the data it will see in production.</p>
+
+<h3 id="method-3:7395cc3ccf531a224e4d67b16e99758e">Method 3</h3>
+
+<p>This Method requires building models of traffic data from existing traffic sets. One of the problems with doing this method is that it is hard to model the bursty characteristics of network traffic using mathematical models. This method has a hard time creating traffic that is realistic on a small scale. It can create somewhat realistic looking traffic sets over a large period of time but micro level inspections the data will be inaccurate of what the neural network will see in production.</p>
+
+<h3 id="method-1-our-implementation:7395cc3ccf531a224e4d67b16e99758e">Method 1 &ndash; Our Implementation</h3>
+
+<p>In our projects to reduce the development time and complexity as well as maximize the realistic nature of our generated traffic data we chose to use method 1.</p>
+
+<ol>
+<li>Collect and Pre-process data</li>
+<li>Categorize packet data</li>
+<li>Generate test traffic data</li>
+</ol>
+
+<p>Each stage was designed to build off the work of the one before it and be to output its work in a persistent manner. That way after stage 1 had ran you can run stage 2 as many times as you want without needing to run stage one again. Since we were using large traffic data sets running time and memory usage could get large. Separating the stages into a pipeline meant that we  could just rerun the parts that we needed to generate new data, which make the process of training the neural network faster.</p>
+
+<p>In the first stage we collect traffic data and pre-process it. In our case that involved removing layer 1&amp;2 data from the scans and loading it into a database for future processing.</p>
+
+<p>The second stage we parse each packet and categorize it. During this step we categorized traffic based on things like throughput, presence of a scan, number of packets, duration, etc. While categorizing packets we use two objects to organize them; Conversations and flows.</p>
+
+<p>A conversation is communication between two ip addresses. Flows contain all packets from transport layer address to address (aka Host:Port &lt;-&gt; Host:Port). In our application conversations are considered to be atomic. In other words if you wanted to include a packet from a conversation you also had to include all other packets from that conversation and preserve all of the timings of packets relative to that conversation. This behavior enabled us to make sure that the traffic data we generate actually looks like realistic communication.</p>
+
+<p>In the third stage of the process we select conversations and add them into our new traffic data set preserving their timings and the flow of packets. Based on what type of traffic we want we choose different conversations. If a scan is needed in this data set then one or more of the conversations that are marked as containing a scan are selected and inserted into the results.</p>
+
+<p>When all of the conversations that are to be added have been added then the traffic data is loaded into the database. Then a training file is created describing which ranges of packets to test with and whether or not a scan exists in each range. The mechanism that declares what ranges to test together uses the same algorithm as the Collection agent to replicate exactly what the neural network would see in production.</p>
+
+<hr />
+
+<p>All of the code can be <a href="https://github.com/chprice/Terrier">found here</a></p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+                 <a href="/tags/go/">go</a>
+            
+                 <a href="/tags/development/">development</a>
+            
+                 <a href="/tags/machine-learning/">machine-learning</a>
+            
+        </p>
+    
+
+    <div class="share">
+        <a class="icon-twitter" href="http://twitter.com/share?text=Generation%20Network%20Traffic%20for%20Training%20Intelligent%20Intrusion%20Detection%20Systems&url=https%3a%2f%2frlguarino.com%2fpost%2ftrafficgeneration%2f"
+            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+            <i class="fa fa-twitter"></i>
+            <span class="hidden">Twitter</span>
+        </a>
+
+        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2frlguarino.com%2fpost%2ftrafficgeneration%2f"
+            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+            <i class="fa fa-facebook"></i>
+            <span class="hidden">Facebook</span>
+        </a>
+
+        <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2frlguarino.com%2fpost%2ftrafficgeneration%2f"
+           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+           <i class="fa fa-google-plus"></i>
+            <span class="hidden">Google+</span>
+        </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Coding Discourse" href="https://rlguarino.com/">Coding Discourse</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2016 / Powered by <a href="http://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://rlguarino.com/js/jquery-1.11.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+        <script src="https://rlguarino.com/js/jquery.fitvids.js"></script>
+        <script src="https://rlguarino.com/js/scripts.js"></script>
+    </body>
+</html>
+

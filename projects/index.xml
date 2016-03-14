@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Coding Discourse</title>
+    <link>https://rlguarino.com/projects/</link>
+    <description>Recent content in Projects on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 28 Feb 2016 10:10:16 -0800</lastBuildDate>
+    <atom:link href="https://rlguarino.com/projects/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>REST OS</title>
+      <link>https://rlguarino.com/projects/restos/</link>
+      <pubDate>Sun, 28 Feb 2016 10:10:16 -0800</pubDate>
+      
+      <guid>https://rlguarino.com/projects/restos/</guid>
+      <description>
+
+&lt;p&gt;The Rest Operating System is a MicroKernel Operating System where the primary form of interacting with the kernel is through a HTTP REST-like syscall interface. The Kernel is as small as possible, most functionality is provided by kernel modules.&lt;/p&gt;
+
+&lt;p&gt;I challenged myself to make a interesting kernel for one of my systems programming courses, this is the design that came out of experience. While working on the system I was implementing a virtual file system emulating the linux vfs when I decided I wanted to try and rethink the vfs interface. Instead of providing POSIX file interface to the files in the vfs I wanted to define my own really dumb interface. Below is a very quick overview of that interface.&lt;/p&gt;
+
+&lt;p&gt;The kernel it’s self provides a very limited amount of functionality and relies on it’s modules for most of it’s features. The two main tasks performed by the kernel are process scheduling, and routing requests to resources. All other functionality is provided by kernel modules.&lt;/p&gt;
+
+&lt;p&gt;The design of the interface is tightly modeled after a HTTP based micro-service architecture. User space interacts the kernel and modules by issuing requests on resources using the resource urls.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;modules:d75bbd6ddbbf17dd3733ff0f00ee9f9c&#34;&gt;Modules:&lt;/h2&gt;
+
+&lt;p&gt;Modules are the main blocks of functionality in the system. A module encapsulates or provides a single feature/concept. For example the clock module, or a ext4 filesystem module or a X server module. Most of the actual work is performed by modules.&lt;/p&gt;
+
+&lt;h2 id=&#34;domains:d75bbd6ddbbf17dd3733ff0f00ee9f9c&#34;&gt;Domains:&lt;/h2&gt;
+
+&lt;p&gt;A domain is a single named resource tree. Each domain has a tree of resources and in the future would have it’s own access control mechanisms.&lt;/p&gt;
+
+&lt;h2 id=&#34;resources:d75bbd6ddbbf17dd3733ff0f00ee9f9c&#34;&gt;Resources:&lt;/h2&gt;
+
+&lt;p&gt;A resources is the basic building block of a modules interface. All communication is facilitated through resources. Resources are access through a resource tree using their url. The slightly modified url scheme used in traditional filesystems or http applies here. The resource tree is very similar in nature to the vfs inode tree in linux. In the future resources will also contain metadata in the form of key value attributes.&lt;/p&gt;
+
+&lt;h2 id=&#34;system-calls:d75bbd6ddbbf17dd3733ff0f00ee9f9c&#34;&gt;System Calls:&lt;/h2&gt;
+
+&lt;p&gt;There are four main system calls used to interact with resources, GET, PUT, POST and DELETE. The system calls are issued against a specific resources given it’s url. In future development HEAD and other requests would be added.&lt;/p&gt;
+
+&lt;h2 id=&#34;future-development:d75bbd6ddbbf17dd3733ff0f00ee9f9c&#34;&gt;Future Development:&lt;/h2&gt;
+
+&lt;p&gt;I’m very excited to continue working on this project. I’m waiting for an arm dev board to continue working on this system with with a slightly different design. My plan for the next steps is to do a rewrite using Rust whenever possible, and to port the code to arm_64.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

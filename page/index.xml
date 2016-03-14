@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Coding Discourse</title>
+    <link>https://rlguarino.com/page/</link>
+    <description>Recent content in Pages on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 30 Sep 2014 22:50:40 -0400</lastBuildDate>
+    <atom:link href="https://rlguarino.com/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>About</title>
+      <link>https://rlguarino.com/page/about/</link>
+      <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
+      
+      <guid>https://rlguarino.com/page/about/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/me.jpg&#34; alt=&#34;Me&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I am Ross Guarino. I am a recent Computer Science student at &lt;a href=&#34;http://rit.edu&#34;&gt;Rochester Institute of Technology&lt;/a&gt; and a member of &lt;a href=&#34;http://csh.rit.edu&#34; title=&#34;CSH&#34;&gt;Computer Science House&lt;/a&gt;. I enjoy doing &lt;a href=&#34;https://rlguarino.com/projects&#34;&gt;projects&lt;/a&gt; in my spare time as a means to learn new things. I have a special interest in distributed systems, backend applications, the outdoors, and operating systems design.&lt;/p&gt;
+
+&lt;p&gt;Check out my code on &lt;a href=&#34;http://github.com/rlguarino&#34;&gt;GitHub&lt;/a&gt; and my resume and experience on &lt;a href=&#34;http://www.linkedin.com/pub/ross-guarino/58/799/435/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://rlguarino.com/page/projects/</link>
+      <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
+      
+      <guid>https://rlguarino.com/page/projects/</guid>
+      <description>
+
+&lt;h2 id=&#34;μkernel-projects-restos:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;&lt;a href=&#34;https://rlguarino.com/projects/restos&#34;&gt;μKernel&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;A Micro Kernel operating system that provides a simple REST/Http interface.&lt;/p&gt;
+
+&lt;p&gt;The goal of this operating system was to build a kernel API that other developers could use to add functionality to the system without creating new system calls. What started as an attempt to design a VFS turned into a kernel module system that emulated a REST service. The Kernel provided a set of six system calls for registering and interacting with resources provided by kernel modules.&lt;/p&gt;
+
+&lt;h2 id=&#34;keylogger:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;Keylogger&lt;/h2&gt;
+
+&lt;p&gt;A windows KeyLogger built as an experiment in design and implementation of malicious software. The KeyLogger was built using redundant components for resilience with a goal to remain undetected. The KeyLogger preformed great in trials and was never disabled or detected by the targets.&lt;/p&gt;
+
+&lt;h2 id=&#34;intelligent-scan-detection:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;Intelligent Scan Detection&lt;/h2&gt;
+
+&lt;p&gt;An Intrusion Detection program that is designed to detect and respond to port scans. Using a Neural Network to detect an ongoing port scan the software takes action to notify user and tale protective action in real time.&lt;/p&gt;
+
+&lt;h2 id=&#34;professional-development:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;Professional Development&lt;/h2&gt;
+
+&lt;p&gt;Developed the RESTful api of a web application which will be used by over 200 interpretors and support staff at the &lt;a href=&#34;http://www.ntid.rit.edu/&#34;&gt;National Technical Institute for the Deaf&lt;/a&gt; to organize their agenda.&lt;/p&gt;
+
+&lt;h2 id=&#34;unitracker:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;Unitracker&lt;/h2&gt;
+
+&lt;p&gt;Continuous integration unit test tracking system built in go.&lt;/p&gt;
+
+&lt;h2 id=&#34;pyshare:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;PyShare&lt;/h2&gt;
+
+&lt;p&gt;A peer-to-peer distributed file sharing system written in python.&lt;/p&gt;
+
+&lt;h2 id=&#34;smart-vending-machine-system:3c42bb4157bf51d85ae7ffc4e1685909&#34;&gt;Smart Vending Machine System&lt;/h2&gt;
+
+&lt;p&gt;A smart vending machine system group project for my Software Engineering class.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Resume</title>
+      <link>https://rlguarino.com/page/resume/</link>
+      <pubDate>Tue, 30 Sep 2014 22:50:40 -0400</pubDate>
+      
+      <guid>https://rlguarino.com/page/resume/</guid>
+      <description>&lt;p&gt;I am looking for interesting work opportunities, If you&amp;rsquo;re hiring a copy of my resume can be found &lt;a href=&#34;https://rlguarino.com/files/Ross_Guarino_Resume.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Development on Coding Discourse</title>
+    <link>https://rlguarino.com/tags/development/</link>
+    <description>Recent content in Development on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Feb 2016 22:39:17 -0500</lastBuildDate>
+    <atom:link href="https://rlguarino.com/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PowerShell Reload Path</title>
+      <link>https://rlguarino.com/post/powershell-reload/</link>
+      <pubDate>Thu, 11 Feb 2016 22:39:17 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/powershell-reload/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;ve started to write code to solve the little problems that annoy or slow me more than once, instead of complaining. One of these slowdowns comes from working with open source projects and installing command line utilities on Windows. I manage a C:\users\rlguarino\ProgramFiles\ directory for programs I&amp;rsquo;ve built from source or installed using an archive. Anything that is not installed using some package manager or an .mis lives here.&lt;/p&gt;
+
+&lt;p&gt;Adding each programs executable to the path is much easier with the changes to Environment variables in Windows 10. However all previously open PowerShell windows will not be updated. To reload the variables without restarting the shell I wrote a PowerShell function to reset the path for me.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;PowerShell&#34;&gt;
+function ReloadPath
+{
+        $env:Path = [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;Machine&#34;)
+        + &#34;;&#34; + [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;User&#34;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Edit: 2016-02-28 : Add Profiles&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;enable-using-profiles:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Profiles&lt;/h2&gt;
+
+&lt;p&gt;Instead of creating a Module in powershell it&amp;rsquo;s simpler to add the ReloadPath function directly to your powershell profile. You can check if you already have a profile by using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176851.aspx&#34;&gt;get-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;get-item $profile&lt;/pre&gt;
+
+&lt;p&gt;If the above command returns True your profile already exists. If it returns False you can create the Profile file using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176914.aspx&#34;&gt;new-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;new-item -path $profile -itemtype file -force &lt;/pre&gt;
+
+&lt;p&gt;Now you can edit the profile using&lt;/p&gt;
+
+&lt;pre&gt;notepad $profile&lt;/pre&gt;
+
+&lt;p&gt;Add the function to this file and save it then restart your powershell profile and try running
+&lt;pre&gt; ReloadPath &lt;/pre&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;enable-using-modules:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Modules&lt;/h2&gt;
+
+&lt;p&gt;To enable this function place it in: &lt;strong&gt;Documents\WindowsPowerShell\Modules\MyFunctions.psm1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can run &lt;pre&gt; Get-Module -listavailable &lt;/pre&gt; to ensure that your module &amp;ldquo;MyFunctions&amp;rdquo; is present. Then run &lt;pre&gt;Import-Module MyFunctions&lt;/pre&gt; to import the functions inside the MyFunctions module.&lt;/p&gt;
+
+&lt;p&gt;Now you should be able to run &lt;pre&gt;ReloadPath&lt;/pre&gt; to reload the path variable without closing your shell.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems</title>
+      <link>https://rlguarino.com/post/trafficgeneration/</link>
+      <pubDate>Tue, 16 Dec 2014 15:30:39 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/trafficgeneration/</guid>
+      <description>
+
+&lt;p&gt;For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &amp;ldquo;Intellignt&amp;rdquo; requirement of the class. We named the project Terrier.&lt;/p&gt;
+
+&lt;p&gt;Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
+
+&lt;p&gt;The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.&lt;/p&gt;
+
+&lt;h2 id=&#34;generating-traffic-data:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Generating Traffic Data&lt;/h2&gt;
+
+&lt;p&gt;There are three different main ways to generate traffic data the looks realistic.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Generate packets by superimposing sets of captured packet data.&lt;/li&gt;
+&lt;li&gt;Create generator functions manually to implement common protocols.&lt;/li&gt;
+&lt;li&gt;Create mathematical generator models from captured packet data.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;method-1:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 1&lt;/h3&gt;
+
+&lt;p&gt;Method one takes already existing packet traces and picks packets from them and changes some of the headers to produce logical flow and synthesizes a fake packet set. This method superimposes traffic data sets onto each other to create more variety in the traffic than what we started with. This has the benefit of capturing every protocol, even ones we don&amp;rsquo;t think of with real latency in between the packets.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-2:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 2&lt;/h3&gt;
+
+&lt;p&gt;Method two involves writing code to generate valid communication streams between two clients for every protocol that we might see during a scan. This method will require intimate knowledge of how each protocol works in order to accurately generate traffic data. If we don&amp;rsquo;t implement enough protocols or if we have bugs in our implementations then the neural network will be trained on data that does not accurately resemble the data it will see in production.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-3:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 3&lt;/h3&gt;
+
+&lt;p&gt;This Method requires building models of traffic data from existing traffic sets. One of the problems with doing this method is that it is hard to model the bursty characteristics of network traffic using mathematical models. This method has a hard time creating traffic that is realistic on a small scale. It can create somewhat realistic looking traffic sets over a large period of time but micro level inspections the data will be inaccurate of what the neural network will see in production.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-1-our-implementation:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 1 &amp;ndash; Our Implementation&lt;/h3&gt;
+
+&lt;p&gt;In our projects to reduce the development time and complexity as well as maximize the realistic nature of our generated traffic data we chose to use method 1.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Collect and Pre-process data&lt;/li&gt;
+&lt;li&gt;Categorize packet data&lt;/li&gt;
+&lt;li&gt;Generate test traffic data&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Each stage was designed to build off the work of the one before it and be to output its work in a persistent manner. That way after stage 1 had ran you can run stage 2 as many times as you want without needing to run stage one again. Since we were using large traffic data sets running time and memory usage could get large. Separating the stages into a pipeline meant that we  could just rerun the parts that we needed to generate new data, which make the process of training the neural network faster.&lt;/p&gt;
+
+&lt;p&gt;In the first stage we collect traffic data and pre-process it. In our case that involved removing layer 1&amp;amp;2 data from the scans and loading it into a database for future processing.&lt;/p&gt;
+
+&lt;p&gt;The second stage we parse each packet and categorize it. During this step we categorized traffic based on things like throughput, presence of a scan, number of packets, duration, etc. While categorizing packets we use two objects to organize them; Conversations and flows.&lt;/p&gt;
+
+&lt;p&gt;A conversation is communication between two ip addresses. Flows contain all packets from transport layer address to address (aka Host:Port &amp;lt;-&amp;gt; Host:Port). In our application conversations are considered to be atomic. In other words if you wanted to include a packet from a conversation you also had to include all other packets from that conversation and preserve all of the timings of packets relative to that conversation. This behavior enabled us to make sure that the traffic data we generate actually looks like realistic communication.&lt;/p&gt;
+
+&lt;p&gt;In the third stage of the process we select conversations and add them into our new traffic data set preserving their timings and the flow of packets. Based on what type of traffic we want we choose different conversations. If a scan is needed in this data set then one or more of the conversations that are marked as containing a scan are selected and inserted into the results.&lt;/p&gt;
+
+&lt;p&gt;When all of the conversations that are to be added have been added then the traffic data is loaded into the database. Then a training file is created describing which ranges of packets to test with and whether or not a scan exists in each range. The mechanism that declares what ranges to test together uses the same algorithm as the Collection agent to replicate exactly what the neural network would see in production.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;All of the code can be &lt;a href=&#34;https://github.com/chprice/Terrier&#34;&gt;found here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

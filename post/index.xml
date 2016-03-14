@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Coding Discourse</title>
+    <link>https://rlguarino.com/post/</link>
+    <description>Recent content in Posts on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Feb 2016 22:39:17 -0500</lastBuildDate>
+    <atom:link href="https://rlguarino.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PowerShell Reload Path</title>
+      <link>https://rlguarino.com/post/powershell-reload/</link>
+      <pubDate>Thu, 11 Feb 2016 22:39:17 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/powershell-reload/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;ve started to write code to solve the little problems that annoy or slow me more than once, instead of complaining. One of these slowdowns comes from working with open source projects and installing command line utilities on Windows. I manage a C:\users\rlguarino\ProgramFiles\ directory for programs I&amp;rsquo;ve built from source or installed using an archive. Anything that is not installed using some package manager or an .mis lives here.&lt;/p&gt;
+
+&lt;p&gt;Adding each programs executable to the path is much easier with the changes to Environment variables in Windows 10. However all previously open PowerShell windows will not be updated. To reload the variables without restarting the shell I wrote a PowerShell function to reset the path for me.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;PowerShell&#34;&gt;
+function ReloadPath
+{
+        $env:Path = [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;Machine&#34;)
+        + &#34;;&#34; + [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;User&#34;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Edit: 2016-02-28 : Add Profiles&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;enable-using-profiles:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Profiles&lt;/h2&gt;
+
+&lt;p&gt;Instead of creating a Module in powershell it&amp;rsquo;s simpler to add the ReloadPath function directly to your powershell profile. You can check if you already have a profile by using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176851.aspx&#34;&gt;get-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;get-item $profile&lt;/pre&gt;
+
+&lt;p&gt;If the above command returns True your profile already exists. If it returns False you can create the Profile file using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176914.aspx&#34;&gt;new-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;new-item -path $profile -itemtype file -force &lt;/pre&gt;
+
+&lt;p&gt;Now you can edit the profile using&lt;/p&gt;
+
+&lt;pre&gt;notepad $profile&lt;/pre&gt;
+
+&lt;p&gt;Add the function to this file and save it then restart your powershell profile and try running
+&lt;pre&gt; ReloadPath &lt;/pre&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;enable-using-modules:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Modules&lt;/h2&gt;
+
+&lt;p&gt;To enable this function place it in: &lt;strong&gt;Documents\WindowsPowerShell\Modules\MyFunctions.psm1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can run &lt;pre&gt; Get-Module -listavailable &lt;/pre&gt; to ensure that your module &amp;ldquo;MyFunctions&amp;rdquo; is present. Then run &lt;pre&gt;Import-Module MyFunctions&lt;/pre&gt; to import the functions inside the MyFunctions module.&lt;/p&gt;
+
+&lt;p&gt;Now you should be able to run &lt;pre&gt;ReloadPath&lt;/pre&gt; to reload the path variable without closing your shell.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Learning to Write</title>
+      <link>https://rlguarino.com/post/writing/</link>
+      <pubDate>Thu, 11 Feb 2016 22:26:42 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/writing/</guid>
+      <description>&lt;p&gt;I am a horrible writer and a Scriptophobe (fear of writing). I have spent the better part of the last five years earning a technical degree. In those five years I have read countless lines of code, endless pages of tiny serifed typeface and countless 80x80 pages of mono-space of documentation with the occasional piece of ascii art. I experience anxiety when I watch other people read my writing. When I do write English, I fear that what I write does not portray what it is that I am trying to get across or that my opinion is not worth sharing in the first place.&lt;/p&gt;
+
+&lt;p&gt;Over the past 5 years I’ve become convinced that technical skill is not what makes great programmers great. Of course being a successful programmer requires a significant amount of technical knowledge and ability but it also requires a significant amount of communication.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The difference between a tolerable programmer and a great programmer is not how many programming languages they know, and it&amp;rsquo;s not whether they prefer Python or Java. It&amp;rsquo;s whether they can communicate their ideas.  - &lt;a href=&#34;http://www.joelonsoftware.com/articles/CollegeAdvice.html&#34;&gt;Joel Spolsky&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As programmers we sometimes forget about the social aspect of our work. Unless you never share what you write someone else will probably read it. You can expect that there will be another human reading your code at some point in the future. Whether they are trying to figure out what it does or reading your documentation trying to find how to use it, someone will read it.&lt;/p&gt;
+
+&lt;p&gt;During the course of my degree, I’ve spent a lot of time reading and writing code but I’ve spent virtually none of that time writing any English. My writing has spent even less time in front of others than it has in front of me.  Watching someone read what I’ve written has always caused me great anxiety.&lt;/p&gt;
+
+&lt;p&gt;On my previous team at Google comments are restricted to full sentences and that is a habit I’ve carried after my internship. Comment sentences are isolated, simple and serve a purely technical purpose. I have no experience creating an interesting and compelling narrative, keeping someone interested in what I have to share or even convincing someone that there is merit in what I have to say.&lt;/p&gt;
+
+&lt;p&gt;This blog will serve as a place for me to practice writing. Since the only way to get better is to practice and get feedback this will be the place for me to do both.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Generation Network Traffic for Training Intelligent Intrusion Detection Systems</title>
+      <link>https://rlguarino.com/post/trafficgeneration/</link>
+      <pubDate>Tue, 16 Dec 2014 15:30:39 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/trafficgeneration/</guid>
+      <description>
+
+&lt;p&gt;For an Intelligent Security Systems class this semester we got the change to design and implement a project of our choosing with a group. My group decided that we were going to attempt to detect port scans using our own IDS. We were required to use some form of machine learning to satisfy the &amp;ldquo;Intellignt&amp;rdquo; requirement of the class. We named the project Terrier.&lt;/p&gt;
+
+&lt;p&gt;Terrier is a port scan detection system. It consists of three individual components. The first is a collection agent that reads packets from the wire, second is a detection agent which determines from packet data if a scan has occurred, and third is a response agent that decides what to do if a scan is found. The three components communicate through a job queue and a database.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/trafficgen/Architecture.svg&#34; alt=&#34;Architecturee&#34; height=500&gt;&lt;/p&gt;
+
+&lt;p&gt;The last major component of the project was the training agent. We needed something to train the Neural Network quickly. We wanted to be able to train the neural network using configurable training sets. I was in charge of implementing the traffic generation code that would generated fake traffic data to be used to train the Neural Network.&lt;/p&gt;
+
+&lt;h2 id=&#34;generating-traffic-data:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Generating Traffic Data&lt;/h2&gt;
+
+&lt;p&gt;There are three different main ways to generate traffic data the looks realistic.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Generate packets by superimposing sets of captured packet data.&lt;/li&gt;
+&lt;li&gt;Create generator functions manually to implement common protocols.&lt;/li&gt;
+&lt;li&gt;Create mathematical generator models from captured packet data.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;method-1:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 1&lt;/h3&gt;
+
+&lt;p&gt;Method one takes already existing packet traces and picks packets from them and changes some of the headers to produce logical flow and synthesizes a fake packet set. This method superimposes traffic data sets onto each other to create more variety in the traffic than what we started with. This has the benefit of capturing every protocol, even ones we don&amp;rsquo;t think of with real latency in between the packets.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-2:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 2&lt;/h3&gt;
+
+&lt;p&gt;Method two involves writing code to generate valid communication streams between two clients for every protocol that we might see during a scan. This method will require intimate knowledge of how each protocol works in order to accurately generate traffic data. If we don&amp;rsquo;t implement enough protocols or if we have bugs in our implementations then the neural network will be trained on data that does not accurately resemble the data it will see in production.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-3:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 3&lt;/h3&gt;
+
+&lt;p&gt;This Method requires building models of traffic data from existing traffic sets. One of the problems with doing this method is that it is hard to model the bursty characteristics of network traffic using mathematical models. This method has a hard time creating traffic that is realistic on a small scale. It can create somewhat realistic looking traffic sets over a large period of time but micro level inspections the data will be inaccurate of what the neural network will see in production.&lt;/p&gt;
+
+&lt;h3 id=&#34;method-1-our-implementation:7395cc3ccf531a224e4d67b16e99758e&#34;&gt;Method 1 &amp;ndash; Our Implementation&lt;/h3&gt;
+
+&lt;p&gt;In our projects to reduce the development time and complexity as well as maximize the realistic nature of our generated traffic data we chose to use method 1.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Collect and Pre-process data&lt;/li&gt;
+&lt;li&gt;Categorize packet data&lt;/li&gt;
+&lt;li&gt;Generate test traffic data&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Each stage was designed to build off the work of the one before it and be to output its work in a persistent manner. That way after stage 1 had ran you can run stage 2 as many times as you want without needing to run stage one again. Since we were using large traffic data sets running time and memory usage could get large. Separating the stages into a pipeline meant that we  could just rerun the parts that we needed to generate new data, which make the process of training the neural network faster.&lt;/p&gt;
+
+&lt;p&gt;In the first stage we collect traffic data and pre-process it. In our case that involved removing layer 1&amp;amp;2 data from the scans and loading it into a database for future processing.&lt;/p&gt;
+
+&lt;p&gt;The second stage we parse each packet and categorize it. During this step we categorized traffic based on things like throughput, presence of a scan, number of packets, duration, etc. While categorizing packets we use two objects to organize them; Conversations and flows.&lt;/p&gt;
+
+&lt;p&gt;A conversation is communication between two ip addresses. Flows contain all packets from transport layer address to address (aka Host:Port &amp;lt;-&amp;gt; Host:Port). In our application conversations are considered to be atomic. In other words if you wanted to include a packet from a conversation you also had to include all other packets from that conversation and preserve all of the timings of packets relative to that conversation. This behavior enabled us to make sure that the traffic data we generate actually looks like realistic communication.&lt;/p&gt;
+
+&lt;p&gt;In the third stage of the process we select conversations and add them into our new traffic data set preserving their timings and the flow of packets. Based on what type of traffic we want we choose different conversations. If a scan is needed in this data set then one or more of the conversations that are marked as containing a scan are selected and inserted into the results.&lt;/p&gt;
+
+&lt;p&gt;When all of the conversations that are to be added have been added then the traffic data is loaded into the database. Then a training file is created describing which ranges of packets to test with and whether or not a scan exists in each range. The mechanism that declares what ranges to test together uses the same algorithm as the Collection agent to replicate exactly what the neural network would see in production.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;All of the code can be &lt;a href=&#34;https://github.com/chprice/Terrier&#34;&gt;found here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Simulating Students Procrastination Behavior</title>
+      <link>https://rlguarino.com/post/simulatingstudents/</link>
+      <pubDate>Wed, 10 Dec 2014 11:25:32 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/simulatingstudents/</guid>
+      <description>
+
+&lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/d3/3.5.1/d3.min.js&#34;&gt; &lt;/script&gt;
+
+&lt;h2 id=&#34;introduction-to-behavioral-economic-concepts:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Introduction to Behavioral Economic concepts&lt;/h2&gt;
+
+&lt;p&gt;One of the lectures in my Behavioral Economic class prompted my to try to simulate students behavior and try to replicate the results of a research paper. The Research Paper talked about subject&amp;rsquo;s willingness to self impose deadlines to overcome their procrastination habits. The paper discussed a experiment where students were given the opportunity to set the deadlines for their assignment in the first week of classes. They were allowed to set the deadlines for the assignment any time from the start of class to the last day of classes.&lt;/p&gt;
+
+&lt;p&gt;A perfectly rational person in this situation would set their deadlines on the last possible day and then do the assignments at some point during the semester whenever they have free time. The rational person would not self impose deadlines because they will be able to complete the assignment at any point during the semester when they have time to. Imposing a premature deadline would only decrease their flexibility and increase the potential costs (penalty for missing the deadline).&lt;/p&gt;
+
+&lt;p&gt;On the other hand, a person who procrastinates should be willing to set an early deadline for some of the assignments to avoid an overwhelming amount of work at the end of the semester, where their grade would suffer from not having an adequate amount of time to spend on the assignments.&lt;/p&gt;
+
+&lt;p&gt;The paper found that the majority of students set the deadline before the last possible day to counteract their own tendency to procrastinate. [1]&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;time-inconsistent-behavior:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Time Inconsistent Behavior&lt;/h3&gt;
+
+&lt;p&gt;In Economics &lt;a href=&#34;http://en.wikipedia.org/wiki/Dynamic_inconsistency&#34;&gt;time inconsistent behavior &lt;/a&gt; arises when a person&amp;rsquo;s preferences change over time. Someone who displays time inconsistent behavior might prefer one choice over another in one point in time, but in another point in time might not value the choice the same. One common theory in economics is that people highly value things that happen now or in the near future, and discount things will happen in the not immediate future. The discounting can be attributed to the tendency for people to make time inconstant decisions.&lt;/p&gt;
+
+&lt;p&gt;For example suppose &lt;code&gt;A&lt;/code&gt; is your favorite candy bar. Imagine I give you a choice between one &lt;code&gt;A&lt;/code&gt; today and 10 &lt;code&gt;A&lt;/code&gt; in 4 months from today.  Suppose you chose one today over the 10 in 4 months. Now, supposed I offered you this deal 10 years ago, which would you choose?&lt;/p&gt;
+
+&lt;p&gt;Many people would choose the 10 four months later if they already have to wait 10 years. This inconsistent behavior is of interest to Economists.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;discount-models:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Discount models&lt;/h3&gt;
+
+&lt;p&gt;Peoples&amp;rsquo; tendency to prefer utility that is experienced earlier rather than later can be modeled by adding a coefficient to their utility function. This function would begin as 1 (to indicate no discount) and decrease as the delay in experiencing the outcome increases. One of the models for the discounting humans perform on the value of goods and services they will experience later is the &lt;a href=&#34;http://en.wikipedia.org/wiki/Exponential_discounting&#34;&gt;exponential model&lt;/a&gt; however studies have shown humans to violate the model [2] and in order to more accurately represent the behavior an &lt;a href=&#34;http://en.wikipedia.org/wiki/Hyperbolic_discounting&#34;&gt;hyperbolic model&lt;/a&gt; has begun to be adopted. In my simulations I used the quasi-hyperbolic model for discounting.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;golang&#34;&gt;
+// The discount function for this individual
+// If d is 0 then the function is 1, otherwise it is B * (D ^ d)
+func Discount(B float64, D float64, d int) float64{
+    if d == 0 {
+        return 1
+    }
+    return B * math.Pow(D, float64(d))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;simulation:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Simulation&lt;/h2&gt;
+
+&lt;p&gt;As an experiment I set out to simulate the students in the paper I mentioned earlier. To do so I would need to make sure I came up with a realistic model of the decision making process of a student. As a student, I felt like I had a good idea of where to start.&lt;/p&gt;
+
+&lt;p&gt;To simulate the decision making process of the students follows 4 steps.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Generate every possible combination of workloads starting on the current day, and looking into the future a given number of days &lt;code&gt;L&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;For each possible workload calculate the sum of the perceived utility of each day&amp;rsquo;s worth of work.&lt;/li&gt;
+&lt;li&gt;Choose the highest rated workload and execute the work that workload has for today.&lt;/li&gt;
+&lt;li&gt;Repeat steps 1-3 until we have reached the end of the semester.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In step one we generate all possibilities of working for the next upcoming days, the number of days to consider is determined by the individual. For example, each possible combination of work will be generated, from doing nothing for every day, to working every day.&lt;/p&gt;
+
+&lt;p&gt;In the second step the utility of each workload is calculated. This involves summing each individual utility gained by each days work in workload. This step takes into account time discounting.
+For example, there may be a workload where the person works no hours today, and works 2 hours tomorrow on a project that will be graded in 20 days. The workload&amp;rsquo;s utility would be &lt;code&gt;D(20)U(0)-D(0)C(0) + D(20)U(2)-D(1)C(2)&lt;/code&gt;. The &lt;code&gt;D(20)&lt;/code&gt; is the discount on the utility gained because the work will not be materialized for 20 more days, &lt;code&gt;U(2)&lt;/code&gt; is the utility gained from working 2 hours on the project, and &lt;code&gt;C(2)&lt;/code&gt; is the cost of working on the project for 2 hours which is discounted by &lt;code&gt;D(1)&lt;/code&gt; because the cost will not be realized for another day.&lt;/p&gt;
+
+&lt;p&gt;Once each workload&amp;rsquo;s utility is calculated the individual picks the workload with the highest utility, and executes the work that takes place on today for the given workload.&lt;/p&gt;
+
+&lt;p&gt;Then the process will repeat itself the next day, until the end of the semester.&lt;/p&gt;
+
+&lt;p&gt;At the end of the semester the final grade for each assignment is calculated using the total time spent on that Assignment throughout the semester and the individuals grade per time unit attribute.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;variables:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Variables&lt;/h3&gt;
+
+&lt;p&gt;Each person is a collection of a variables, which are used in the same algorithms to simulate behavior.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;golang&#34;&gt;
+type Person struct{
+    Vg float64 // Value/grade
+    Gt float64 // Grade/time
+    La float64 // Look ahead
+    B float64 // Beta
+    D float64 // Delta
+
+    Semester Semester // The schedule for the semester
+    Assignments []Assignment // The assignment due
+    WorkHours map[Assignment]int // The number of hours worked on assignments
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vg &amp;ndash; represents how much the individual values each letter grade.&lt;/li&gt;
+&lt;li&gt;Gt &amp;ndash; is the grade value earned per each unit of time spend on the assignment.&lt;/li&gt;
+&lt;li&gt;La &amp;ndash; is the number of days the person looks ahead into the future while considering a Workload&lt;/li&gt;
+&lt;li&gt;B &amp;ndash; is the Beta variable in the quasi-hyperbolic approximation discount function, used when considering how people discount.&lt;/li&gt;
+&lt;li&gt;D &amp;ndash; is the Delta variable in the quasi-hyperbolic approximation discount function, used when considering how people discount.&lt;/li&gt;
+&lt;li&gt;Semester &amp;ndash; contains a map of how many time units are available, as well as how those hours a values. This is important to simulate that from day to day the value of time may change, and the time you have to work on a certain Assignment may change.&lt;/li&gt;
+&lt;li&gt;Assignments &amp;ndash; is a list of assignments the individual considers working on.&lt;/li&gt;
+&lt;li&gt;WorkHours &amp;ndash; keeps track of the number of hours spend working on each assignment.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Values for the variables I used:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;golang&#34;&gt;
+// Create person
+    Vg := rand.NormFloat64() * 1 + 10 // Mean: 10 StdDev: 1
+    Gt := rand.NormFloat64() * 0.25 + 2 // Mean: 2 StdDev: 0.25
+    B := rand.NormFloat64() * 0.5 + 0.5 // Mean 0.5 StdDev: 0.5
+    D := rand.NormFloat64() * 0.1 + 0.8 // Mean: 0.8 StdDev: 0.1
+    if D &gt; 1.0{
+        D = 1
+    }
+    person := Person{Vg:Vg, Gt:Gt, La: 7, Vt: 1, P:1, B:B, D:D, WorkHours:make(map[Assignment]int)}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;software-design:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Software Design&lt;/h3&gt;
+
+&lt;p&gt;I used a pattern I have used a lot recently. I have found this pattern very powerful and extremely applicable. The design pattern I followed is called the pipeline pattern which is extremely easy to implement in golang. For each person in the simulation I spin up a goroutine that simulates that student going through each day in the semester outputting state of each tick on a result channel, which is fanned in and analyzed by the main goroutine and turned into graphs and statistics. Using this model I am able to run as many simulations at the same time as possible while decreasing the overhead of synchronizing the different running components because interactions between them are minimal.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;results:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Results&lt;/h2&gt;
+
+&lt;h4 id=&#34;due-at-end:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Due at end&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Assignment 1 (Due day 30)&lt;/li&gt;
+&lt;li&gt;Assignment 2 (Due day 30)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;div id=&#34;graph3&#34; class=&#34;graph&#34;&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;distribution-of-work:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Distribution of work&lt;/h5&gt;
+
+&lt;p&gt;&lt;div id=&#34;graph4&#34; class=&#34;graph&#34;&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;distribution-of-grades:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Distribution of grades&lt;/h5&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;split-evenly:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Split Evenly&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Assignment 1 (Due day 15)&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Assignment 2 (Due day 30)
+&lt;div id=&#34;graph1&#34; class=&#34;graph&#34;&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;distribution-of-work-1:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Distribution of work&lt;/h5&gt;
+
+&lt;p&gt;&lt;div id=&#34;graph2&#34; class=&#34;graph&#34;&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;distribution-of-grades-1:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Distribution of grades&lt;/h5&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The simulated students displayed results similar to the results in the paper. The students who were given deadlines at the end of the semester fared slightly worse than those who were given deadlines that were split evenly throughout the semester.&lt;/p&gt;
+
+&lt;p&gt;In the non split evenly case 22 and 21 people scored a 100 on assignment 1 and 2 respectively. In the split evenly simulation 51 and 31 people scored 100 on assignment 1 and 2 respectively. The difference in the two is not huge but it is statistically significant.&lt;/p&gt;
+
+&lt;p&gt;Pay close attention to the scales of the graphs above, in the Split Grade Distribution graph the Y scale ranges from 0 to 50, while the Non-Split Grade Distribution Graph ranges from 0 to 22. The Grades are more spread out in the Non-Split graph while the Split grades are generally higher than those of the Non-Split.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;code:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Code&lt;/h2&gt;
+
+&lt;p&gt;You can find all of the code on my &lt;a href=&#34;https://github.com/rlguarino&#34;&gt;GitHub page&lt;/a&gt; the &lt;a href=&#34;https://github.com/rlguarino/hyperdsim&#34;&gt;repo is here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;future-work:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Future Work&lt;/h2&gt;
+
+&lt;h3 id=&#34;experiment-design:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Experiment Design&lt;/h3&gt;
+
+&lt;p&gt;Currently this experiment is just for fun and learning on my part, if I clean up the model&amp;rsquo;s structure and flush out some of the Economic Concepts I may be able to produce some more interesting data. Like the most human-like distributions of the variables in the simulation, or the ability to classify different people into different types, based on their attributes. Something I would be interesting in predicting the behavior of individuals.&lt;/p&gt;
+
+&lt;h3 id=&#34;simulation-problems:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Simulation Problems&lt;/h3&gt;
+
+&lt;h4 id=&#34;memory-consumption:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Memory Consumption&lt;/h4&gt;
+
+&lt;p&gt;Because of poor design the simulation consumed a lot of memory, which slowed the entire simulation down considerably when some extra configuration changes were made. Increasing the Assignment list to contain three assignments consumed over 64 GB of memory.&lt;/p&gt;
+
+&lt;h4 id=&#34;reuse-workload-objects:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;Reuse Workload objects&lt;/h4&gt;
+
+&lt;p&gt;One of the next steps I would like to take in improving the performance of the simulation would be to implement a global pool of Workloads. The workloads would be reused by the program instead of allowing for garbage collection to claim them. Since the overhead of creating and destroying all of those Workload objects frequently can have a &lt;a href=&#34;http://blog.cloudflare.com/recycling-memory-buffers-in-go/&#34;&gt;2.5 increase in memory consumption than needed&lt;/a&gt; doing so could significantly reduce the memory needed.&lt;/p&gt;
+
+&lt;h2 id=&#34;references:9c8d536fa95fa263dbafb16408e41e1b&#34;&gt;References&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Ariely ; &amp;ldquo;Procrastination, Deadlines, and Performance Self-Control by Precommitment&amp;rdquo; PS2002&lt;/li&gt;
+&lt;li&gt;Frederick, Shane; Loewenstein, George; O&amp;rsquo;Donoghue, Ted (2002). &amp;ldquo;Time Discounting and Time Preference: A Critical Review&amp;rdquo; Journal of Economic Literature.
+&lt;style&gt;
+div {}
+.graph {
+font-size: 10pt;
+}
+.axis path,
+.axis line {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
+.bar {
+fill: steelblue;
+}
+.x.axis path {
+display: none;
+}
+&lt;/style&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;script&gt;
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 700 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+var x0 = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var x1 = d3.scale.ordinal();
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.ordinal()
+    .range([&#34;#98abc5&#34;, &#34;#8a89a6&#34;, &#34;#7b6888&#34;, &#34;#6b486b&#34;, &#34;#a05d56&#34;, &#34;#d0743c&#34;, &#34;#ff8c00&#34;]);
+
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient(&#34;bottom&#34;);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient(&#34;left&#34;)
+    .tickFormat(d3.format(&#34;.2s&#34;));
+
+var svg = d3.select(&#34;#graph1&#34;).append(&#34;svg&#34;)
+    .attr(&#34;width&#34;, width + margin.left + margin.right)
+    .attr(&#34;height&#34;, height + margin.top + margin.bottom)
+  .append(&#34;g&#34;)
+    .attr(&#34;transform&#34;, &#34;translate(&#34; + margin.left + &#34;,&#34; + margin.top + &#34;)&#34;);
+
+d3.csv(&#34;/files/data/students/split-time.csv&#34;, function(error, data) {
+  var assignments = d3.keys(data[0]).filter(function(key) { return key !== &#34;Day&#34;; });
+
+  data.forEach(function(d) {
+    d.assignments = assignments.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Day; }));
+  x1.domain(assignments).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.assignments, function(d) { return d.value; }); })]);
+
+  svg.append(&#34;g&#34;)
+        .attr(&#34;class&#34;, &#34;x axis&#34;)
+        .attr(&#34;transform&#34;, &#34;translate(0,&#34; + height + &#34;)&#34;)
+        .call(xAxis)
+        .selectAll(&#34;text&#34;)  
+            .style(&#34;text-anchor&#34;, &#34;end&#34;)
+            .attr(&#34;dx&#34;, &#34;-.8em&#34;)
+            .attr(&#34;dy&#34;, &#34;.15em&#34;)
+            .attr(&#34;transform&#34;, function(d) {
+                return &#34;rotate(-65)&#34;
+                });
+
+  svg.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+    .append(&#34;text&#34;)
+      .attr(&#34;transform&#34;, &#34;rotate(-90)&#34;)
+      .attr(&#34;y&#34;, 6)
+      .attr(&#34;dy&#34;, &#34;.71em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(&#34;Hours Worked&#34;);
+
+  var state = svg.selectAll(&#34;.state&#34;)
+      .data(data)
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;g&#34;)
+      .attr(&#34;transform&#34;, function(d) { return &#34;translate(&#34; + x0(d.Day) + &#34;,0)&#34;; });
+
+  state.selectAll(&#34;rect&#34;)
+      .data(function(d) { return d.assignments; })
+    .enter().append(&#34;rect&#34;)
+      .attr(&#34;width&#34;, x1.rangeBand())
+      .attr(&#34;x&#34;, function(d) { return x1(d.name); })
+      .attr(&#34;y&#34;, function(d) { return y(d.value); })
+      .attr(&#34;height&#34;, function(d) { return height - y(d.value); })
+      .style(&#34;fill&#34;, function(d) { return color(d.name); });
+
+  var legend = svg.selectAll(&#34;.legend&#34;)
+      .data(assignments.slice().reverse())
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;legend&#34;)
+      .attr(&#34;transform&#34;, function(d, i) { return &#34;translate(0,&#34; + i * 20 + &#34;)&#34;; });
+
+  legend.append(&#34;rect&#34;)
+      .attr(&#34;x&#34;, width - 18)
+      .attr(&#34;width&#34;, 18)
+      .attr(&#34;height&#34;, 18)
+      .style(&#34;fill&#34;, color);
+
+  legend.append(&#34;text&#34;)
+      .attr(&#34;x&#34;, width - 24)
+      .attr(&#34;y&#34;, 9)
+      .attr(&#34;dy&#34;, &#34;.35em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(function(d) { return d; });
+
+});
+
+var svg2 = d3.select(&#34;#graph2&#34;).append(&#34;svg&#34;)
+    .attr(&#34;width&#34;, width + margin.left + margin.right)
+    .attr(&#34;height&#34;, height + margin.top + margin.bottom)
+  .append(&#34;g&#34;)
+    .attr(&#34;transform&#34;, &#34;translate(&#34; + margin.left + &#34;,&#34; + margin.top + &#34;)&#34;);
+
+d3.csv(&#34;/files/data/students/split-grade.csv&#34;, function(error, data) {
+  var grades = d3.keys(data[0]).filter(function(key) { return key !== &#34;Grade&#34;; });
+
+  data.forEach(function(d) {
+    d.grades = grades.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Grade; }));
+  x1.domain(grades).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.grades, function(d) { return d.value; }); })]);
+
+  svg2.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#34;transform&#34;, &#34;translate(0,&#34; + height + &#34;)&#34;)
+      .call(xAxis)
+      .selectAll(&#34;text&#34;)  
+            .style(&#34;text-anchor&#34;, &#34;end&#34;)
+            .attr(&#34;dx&#34;, &#34;-.8em&#34;)
+            .attr(&#34;dy&#34;, &#34;.15em&#34;)
+            .attr(&#34;transform&#34;, function(d) {
+                return &#34;rotate(-65)&#34;
+                });
+
+  svg2.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+    .append(&#34;text&#34;)
+      .attr(&#34;transform&#34;, &#34;rotate(-90)&#34;)
+      .attr(&#34;y&#34;, 6)
+      .attr(&#34;dy&#34;, &#34;.71em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(&#34;Number of Students&#34;);
+
+  var state = svg2.selectAll(&#34;.state&#34;)
+      .data(data)
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;g&#34;)
+      .attr(&#34;transform&#34;, function(d) { return &#34;translate(&#34; + x0(d.Grade) + &#34;,0)&#34;; });
+
+  state.selectAll(&#34;rect&#34;)
+      .data(function(d) { return d.grades; })
+    .enter().append(&#34;rect&#34;)
+      .attr(&#34;width&#34;, x1.rangeBand())
+      .attr(&#34;x&#34;, function(d) { return x1(d.name); })
+      .attr(&#34;y&#34;, function(d) { return y(d.value); })
+      .attr(&#34;height&#34;, function(d) { return height - y(d.value); })
+      .style(&#34;fill&#34;, function(d) { return color(d.name); });
+
+  var legend = svg2.selectAll(&#34;.legend&#34;)
+      .data(grades.slice().reverse())
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;legend&#34;)
+      .attr(&#34;transform&#34;, function(d, i) { return &#34;translate(0,&#34; + i * 20 + &#34;)&#34;; });
+
+  legend.append(&#34;rect&#34;)
+      .attr(&#34;x&#34;, width - 50 )
+      .attr(&#34;width&#34;, 18)
+      .attr(&#34;height&#34;, 18)
+      .style(&#34;fill&#34;, color);
+
+  legend.append(&#34;text&#34;)
+      .attr(&#34;x&#34;, width - 55)
+      .attr(&#34;y&#34;, 9)
+      .attr(&#34;dy&#34;, &#34;.35em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(function(d) { return d; });
+
+});
+
+
+var svg3 = d3.select(&#34;#graph3&#34;).append(&#34;svg&#34;)
+    .attr(&#34;width&#34;, width + margin.left + margin.right)
+    .attr(&#34;height&#34;, height + margin.top + margin.bottom)
+  .append(&#34;g&#34;)
+    .attr(&#34;transform&#34;, &#34;translate(&#34; + margin.left + &#34;,&#34; + margin.top + &#34;)&#34;);
+
+d3.csv(&#34;/files/data/students/non-split-time.csv&#34;, function(error, data) {
+  var assignments = d3.keys(data[0]).filter(function(key) { return key !== &#34;Day&#34;; });
+
+  data.forEach(function(d) {
+    d.assignments = assignments.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Day; }));
+  x1.domain(assignments).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.assignments, function(d) { return d.value; }); })]);
+
+  svg3.append(&#34;g&#34;)
+        .attr(&#34;class&#34;, &#34;x axis&#34;)
+        .attr(&#34;transform&#34;, &#34;translate(0,&#34; + height + &#34;)&#34;)
+        .call(xAxis)
+        .selectAll(&#34;text&#34;)  
+            .style(&#34;text-anchor&#34;, &#34;end&#34;)
+            .attr(&#34;dx&#34;, &#34;-.8em&#34;)
+            .attr(&#34;dy&#34;, &#34;.15em&#34;)
+            .attr(&#34;transform&#34;, function(d) {
+                return &#34;rotate(-65)&#34;
+                });
+
+  svg3.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+    .append(&#34;text&#34;)
+      .attr(&#34;transform&#34;, &#34;rotate(-90)&#34;)
+      .attr(&#34;y&#34;, 6)
+      .attr(&#34;dy&#34;, &#34;.71em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(&#34;Hours Worked&#34;);
+
+  var state = svg3.selectAll(&#34;.state&#34;)
+      .data(data)
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;g&#34;)
+      .attr(&#34;transform&#34;, function(d) { return &#34;translate(&#34; + x0(d.Day) + &#34;,0)&#34;; });
+
+  state.selectAll(&#34;rect&#34;)
+      .data(function(d) { return d.assignments; })
+    .enter().append(&#34;rect&#34;)
+      .attr(&#34;width&#34;, x1.rangeBand())
+      .attr(&#34;x&#34;, function(d) { return x1(d.name); })
+      .attr(&#34;y&#34;, function(d) { return y(d.value); })
+      .attr(&#34;height&#34;, function(d) { return height - y(d.value); })
+      .style(&#34;fill&#34;, function(d) { return color(d.name); });
+
+  var legend = svg3.selectAll(&#34;.legend&#34;)
+      .data(assignments.slice().reverse())
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;legend&#34;)
+      .attr(&#34;transform&#34;, function(d, i) { return &#34;translate(0,&#34; + i * 20 + &#34;)&#34;; });
+
+  legend.append(&#34;rect&#34;)
+      .attr(&#34;x&#34;, width - 18)
+      .attr(&#34;width&#34;, 18)
+      .attr(&#34;height&#34;, 18)
+      .style(&#34;fill&#34;, color);
+
+  legend.append(&#34;text&#34;)
+      .attr(&#34;x&#34;, width - 24)
+      .attr(&#34;y&#34;, 9)
+      .attr(&#34;dy&#34;, &#34;.35em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(function(d) { return d; });
+
+});
+
+var svg4 = d3.select(&#34;#graph4&#34;).append(&#34;svg&#34;)
+    .attr(&#34;width&#34;, width + margin.left + margin.right)
+    .attr(&#34;height&#34;, height + margin.top + margin.bottom)
+  .append(&#34;g&#34;)
+    .attr(&#34;transform&#34;, &#34;translate(&#34; + margin.left + &#34;,&#34; + margin.top + &#34;)&#34;);
+
+d3.csv(&#34;/files/data/students/non-split-grade.csv&#34;, function(error, data) {
+  var grades = d3.keys(data[0]).filter(function(key) { return key !== &#34;Grade&#34;; });
+
+  data.forEach(function(d) {
+    d.grades = grades.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Grade; }));
+  x1.domain(grades).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.grades, function(d) { return d.value; }); })]);
+
+  svg4.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#34;transform&#34;, &#34;translate(0,&#34; + height + &#34;)&#34;)
+      .call(xAxis)
+      .selectAll(&#34;text&#34;)  
+            .style(&#34;text-anchor&#34;, &#34;end&#34;)
+            .attr(&#34;dx&#34;, &#34;-.8em&#34;)
+            .attr(&#34;dy&#34;, &#34;.15em&#34;)
+            .attr(&#34;transform&#34;, function(d) {
+                return &#34;rotate(-65)&#34;
+                });
+
+  svg4.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+    .append(&#34;text&#34;)
+      .attr(&#34;transform&#34;, &#34;rotate(-90)&#34;)
+      .attr(&#34;y&#34;, 6)
+      .attr(&#34;dy&#34;, &#34;.71em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(&#34;Number of Students&#34;);
+
+  var state = svg4.selectAll(&#34;.state&#34;)
+      .data(data)
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;g&#34;)
+      .attr(&#34;transform&#34;, function(d) { return &#34;translate(&#34; + x0(d.Grade) + &#34;,0)&#34;; });
+
+  state.selectAll(&#34;rect&#34;)
+      .data(function(d) { return d.grades; })
+    .enter().append(&#34;rect&#34;)
+      .attr(&#34;width&#34;, x1.rangeBand())
+      .attr(&#34;x&#34;, function(d) { return x1(d.name); })
+      .attr(&#34;y&#34;, function(d) { return y(d.value); })
+      .attr(&#34;height&#34;, function(d) { return height - y(d.value); })
+      .style(&#34;fill&#34;, function(d) { return color(d.name); });
+
+  var legend = svg4.selectAll(&#34;.legend&#34;)
+      .data(grades.slice().reverse())
+    .enter().append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;legend&#34;)
+      .attr(&#34;transform&#34;, function(d, i) { return &#34;translate(0,&#34; + i * 20 + &#34;)&#34;; });
+
+  legend.append(&#34;rect&#34;)
+      .attr(&#34;x&#34;, width - 50 )
+      .attr(&#34;width&#34;, 18)
+      .attr(&#34;height&#34;, 18)
+      .style(&#34;fill&#34;, color);
+
+  legend.append(&#34;text&#34;)
+      .attr(&#34;x&#34;, width - 55)
+      .attr(&#34;y&#34;, 9)
+      .attr(&#34;dy&#34;, &#34;.35em&#34;)
+      .style(&#34;text-anchor&#34;, &#34;end&#34;)
+      .text(function(d) { return d; });
+
+});
+
+&lt;/script&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Welcome</title>
+      <link>https://rlguarino.com/post/first/</link>
+      <pubDate>Mon, 29 Sep 2014 10:16:27 -0400</pubDate>
+      
+      <guid>https://rlguarino.com/post/first/</guid>
+      <description>&lt;p&gt;Hello I&amp;rsquo;m Ross,&lt;/p&gt;
+
+&lt;p&gt;Welcome to my site. This is where I will be recoding the thoughts and adventures in my life that I find worthy of being written down. Please feel free to leave feedback, I am always looking for good criticism and discussions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;golang&#34;&gt;
+package main
+
+import &#34;fmt&#34;
+
+func main() {
+    fmt.Println(&#34;Hello, 世界&#34;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;ndash;
+Ross Guarino&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

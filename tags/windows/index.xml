@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on Coding Discourse</title>
+    <link>https://rlguarino.com/tags/windows/</link>
+    <description>Recent content in Windows on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Feb 2016 22:39:17 -0500</lastBuildDate>
+    <atom:link href="https://rlguarino.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PowerShell Reload Path</title>
+      <link>https://rlguarino.com/post/powershell-reload/</link>
+      <pubDate>Thu, 11 Feb 2016 22:39:17 -0500</pubDate>
+      
+      <guid>https://rlguarino.com/post/powershell-reload/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;ve started to write code to solve the little problems that annoy or slow me more than once, instead of complaining. One of these slowdowns comes from working with open source projects and installing command line utilities on Windows. I manage a C:\users\rlguarino\ProgramFiles\ directory for programs I&amp;rsquo;ve built from source or installed using an archive. Anything that is not installed using some package manager or an .mis lives here.&lt;/p&gt;
+
+&lt;p&gt;Adding each programs executable to the path is much easier with the changes to Environment variables in Windows 10. However all previously open PowerShell windows will not be updated. To reload the variables without restarting the shell I wrote a PowerShell function to reset the path for me.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;PowerShell&#34;&gt;
+function ReloadPath
+{
+        $env:Path = [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;Machine&#34;)
+        + &#34;;&#34; + [System.Environment]::GetEnvironmentVariable(&#34;Path&#34;,&#34;User&#34;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Edit: 2016-02-28 : Add Profiles&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;enable-using-profiles:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Profiles&lt;/h2&gt;
+
+&lt;p&gt;Instead of creating a Module in powershell it&amp;rsquo;s simpler to add the ReloadPath function directly to your powershell profile. You can check if you already have a profile by using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176851.aspx&#34;&gt;get-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;get-item $profile&lt;/pre&gt;
+
+&lt;p&gt;If the above command returns True your profile already exists. If it returns False you can create the Profile file using the &lt;a href=&#34;https://technet.microsoft.com/en-us/library/ee176914.aspx&#34;&gt;new-item&lt;/a&gt; cmdlet.&lt;/p&gt;
+
+&lt;pre&gt;new-item -path $profile -itemtype file -force &lt;/pre&gt;
+
+&lt;p&gt;Now you can edit the profile using&lt;/p&gt;
+
+&lt;pre&gt;notepad $profile&lt;/pre&gt;
+
+&lt;p&gt;Add the function to this file and save it then restart your powershell profile and try running
+&lt;pre&gt; ReloadPath &lt;/pre&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;enable-using-modules:d275a2248ea2447a79e3f22afcc5d138&#34;&gt;Enable using Modules&lt;/h2&gt;
+
+&lt;p&gt;To enable this function place it in: &lt;strong&gt;Documents\WindowsPowerShell\Modules\MyFunctions.psm1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can run &lt;pre&gt; Get-Module -listavailable &lt;/pre&gt; to ensure that your module &amp;ldquo;MyFunctions&amp;rdquo; is present. Then run &lt;pre&gt;Import-Module MyFunctions&lt;/pre&gt; to import the functions inside the MyFunctions module.&lt;/p&gt;
+
+&lt;p&gt;Now you should be able to run &lt;pre&gt;ReloadPath&lt;/pre&gt; to reload the path variable without closing your shell.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

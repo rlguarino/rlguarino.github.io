@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Simulating Students Procrastination Behavior &middot; Ross Guarino</title>
+        <meta name="description" content="Studying Economic Theory applied to Student&#39;s Behaviors through simulation">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.15" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://rlguarino.com/css/normalize.css">
+        <link rel="stylesheet" href="https://rlguarino.com/css/highlight.css">
+        <link rel="stylesheet" href="https://rlguarino.com/css/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Coding Discourse" href="https://rlguarino.com/">Coding Discourse</a>
+                            </h1>
+                        
+                        <a class="button-square" href="https://rlguarino.com/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/rlguarino">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/rlguarino">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://www.linkedin.com/in/rlguarino">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Google+" title="Google+" href="https://plus.google.com/u/0/&#43;RossGuarino">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/page/projects/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Resume" href="/page/resume/">Resume</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Simulating Students Procrastination Behavior</h1>
+    
+        <p class="post-description" itemprop="description">Studying Economic Theory applied to Student&#39;s Behaviors through simulation</p>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2014-12-10" itemprop="datePublished">Wed, Dec 10, 2014</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="http://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://plus.google.com/u/0/&#43;RossGuarino" itemprop="url" rel="author">Ross Guarino</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.1/d3.min.js"> </script>
+
+<h2 id="introduction-to-behavioral-economic-concepts:9c8d536fa95fa263dbafb16408e41e1b">Introduction to Behavioral Economic concepts</h2>
+
+<p>One of the lectures in my Behavioral Economic class prompted my to try to simulate students behavior and try to replicate the results of a research paper. The Research Paper talked about subject&rsquo;s willingness to self impose deadlines to overcome their procrastination habits. The paper discussed a experiment where students were given the opportunity to set the deadlines for their assignment in the first week of classes. They were allowed to set the deadlines for the assignment any time from the start of class to the last day of classes.</p>
+
+<p>A perfectly rational person in this situation would set their deadlines on the last possible day and then do the assignments at some point during the semester whenever they have free time. The rational person would not self impose deadlines because they will be able to complete the assignment at any point during the semester when they have time to. Imposing a premature deadline would only decrease their flexibility and increase the potential costs (penalty for missing the deadline).</p>
+
+<p>On the other hand, a person who procrastinates should be willing to set an early deadline for some of the assignments to avoid an overwhelming amount of work at the end of the semester, where their grade would suffer from not having an adequate amount of time to spend on the assignments.</p>
+
+<p>The paper found that the majority of students set the deadline before the last possible day to counteract their own tendency to procrastinate. [1]</p>
+
+<hr />
+
+<h3 id="time-inconsistent-behavior:9c8d536fa95fa263dbafb16408e41e1b">Time Inconsistent Behavior</h3>
+
+<p>In Economics <a href="http://en.wikipedia.org/wiki/Dynamic_inconsistency">time inconsistent behavior </a> arises when a person&rsquo;s preferences change over time. Someone who displays time inconsistent behavior might prefer one choice over another in one point in time, but in another point in time might not value the choice the same. One common theory in economics is that people highly value things that happen now or in the near future, and discount things will happen in the not immediate future. The discounting can be attributed to the tendency for people to make time inconstant decisions.</p>
+
+<p>For example suppose <code>A</code> is your favorite candy bar. Imagine I give you a choice between one <code>A</code> today and 10 <code>A</code> in 4 months from today.  Suppose you chose one today over the 10 in 4 months. Now, supposed I offered you this deal 10 years ago, which would you choose?</p>
+
+<p>Many people would choose the 10 four months later if they already have to wait 10 years. This inconsistent behavior is of interest to Economists.</p>
+
+<hr />
+
+<h3 id="discount-models:9c8d536fa95fa263dbafb16408e41e1b">Discount models</h3>
+
+<p>Peoples&rsquo; tendency to prefer utility that is experienced earlier rather than later can be modeled by adding a coefficient to their utility function. This function would begin as 1 (to indicate no discount) and decrease as the delay in experiencing the outcome increases. One of the models for the discounting humans perform on the value of goods and services they will experience later is the <a href="http://en.wikipedia.org/wiki/Exponential_discounting">exponential model</a> however studies have shown humans to violate the model [2] and in order to more accurately represent the behavior an <a href="http://en.wikipedia.org/wiki/Hyperbolic_discounting">hyperbolic model</a> has begun to be adopted. In my simulations I used the quasi-hyperbolic model for discounting.</p>
+
+<pre><code class="golang">
+// The discount function for this individual
+// If d is 0 then the function is 1, otherwise it is B * (D ^ d)
+func Discount(B float64, D float64, d int) float64{
+    if d == 0 {
+        return 1
+    }
+    return B * math.Pow(D, float64(d))
+}
+</code></pre>
+
+<hr />
+
+<h2 id="simulation:9c8d536fa95fa263dbafb16408e41e1b">Simulation</h2>
+
+<p>As an experiment I set out to simulate the students in the paper I mentioned earlier. To do so I would need to make sure I came up with a realistic model of the decision making process of a student. As a student, I felt like I had a good idea of where to start.</p>
+
+<p>To simulate the decision making process of the students follows 4 steps.</p>
+
+<ol>
+<li>Generate every possible combination of workloads starting on the current day, and looking into the future a given number of days <code>L</code>.</li>
+<li>For each possible workload calculate the sum of the perceived utility of each day&rsquo;s worth of work.</li>
+<li>Choose the highest rated workload and execute the work that workload has for today.</li>
+<li>Repeat steps 1-3 until we have reached the end of the semester.</li>
+</ol>
+
+<p>In step one we generate all possibilities of working for the next upcoming days, the number of days to consider is determined by the individual. For example, each possible combination of work will be generated, from doing nothing for every day, to working every day.</p>
+
+<p>In the second step the utility of each workload is calculated. This involves summing each individual utility gained by each days work in workload. This step takes into account time discounting.
+For example, there may be a workload where the person works no hours today, and works 2 hours tomorrow on a project that will be graded in 20 days. The workload&rsquo;s utility would be <code>D(20)U(0)-D(0)C(0) + D(20)U(2)-D(1)C(2)</code>. The <code>D(20)</code> is the discount on the utility gained because the work will not be materialized for 20 more days, <code>U(2)</code> is the utility gained from working 2 hours on the project, and <code>C(2)</code> is the cost of working on the project for 2 hours which is discounted by <code>D(1)</code> because the cost will not be realized for another day.</p>
+
+<p>Once each workload&rsquo;s utility is calculated the individual picks the workload with the highest utility, and executes the work that takes place on today for the given workload.</p>
+
+<p>Then the process will repeat itself the next day, until the end of the semester.</p>
+
+<p>At the end of the semester the final grade for each assignment is calculated using the total time spent on that Assignment throughout the semester and the individuals grade per time unit attribute.</p>
+
+<hr />
+
+<h3 id="variables:9c8d536fa95fa263dbafb16408e41e1b">Variables</h3>
+
+<p>Each person is a collection of a variables, which are used in the same algorithms to simulate behavior.</p>
+
+<pre><code class="golang">
+type Person struct{
+    Vg float64 // Value/grade
+    Gt float64 // Grade/time
+    La float64 // Look ahead
+    B float64 // Beta
+    D float64 // Delta
+
+    Semester Semester // The schedule for the semester
+    Assignments []Assignment // The assignment due
+    WorkHours map[Assignment]int // The number of hours worked on assignments
+}
+</code></pre>
+
+<ul>
+<li>Vg &ndash; represents how much the individual values each letter grade.</li>
+<li>Gt &ndash; is the grade value earned per each unit of time spend on the assignment.</li>
+<li>La &ndash; is the number of days the person looks ahead into the future while considering a Workload</li>
+<li>B &ndash; is the Beta variable in the quasi-hyperbolic approximation discount function, used when considering how people discount.</li>
+<li>D &ndash; is the Delta variable in the quasi-hyperbolic approximation discount function, used when considering how people discount.</li>
+<li>Semester &ndash; contains a map of how many time units are available, as well as how those hours a values. This is important to simulate that from day to day the value of time may change, and the time you have to work on a certain Assignment may change.</li>
+<li>Assignments &ndash; is a list of assignments the individual considers working on.</li>
+<li>WorkHours &ndash; keeps track of the number of hours spend working on each assignment.</li>
+</ul>
+
+<p>Values for the variables I used:</p>
+
+<pre><code class="golang">
+// Create person
+    Vg := rand.NormFloat64() * 1 + 10 // Mean: 10 StdDev: 1
+    Gt := rand.NormFloat64() * 0.25 + 2 // Mean: 2 StdDev: 0.25
+    B := rand.NormFloat64() * 0.5 + 0.5 // Mean 0.5 StdDev: 0.5
+    D := rand.NormFloat64() * 0.1 + 0.8 // Mean: 0.8 StdDev: 0.1
+    if D > 1.0{
+        D = 1
+    }
+    person := Person{Vg:Vg, Gt:Gt, La: 7, Vt: 1, P:1, B:B, D:D, WorkHours:make(map[Assignment]int)}
+</code></pre>
+
+<hr />
+
+<h3 id="software-design:9c8d536fa95fa263dbafb16408e41e1b">Software Design</h3>
+
+<p>I used a pattern I have used a lot recently. I have found this pattern very powerful and extremely applicable. The design pattern I followed is called the pipeline pattern which is extremely easy to implement in golang. For each person in the simulation I spin up a goroutine that simulates that student going through each day in the semester outputting state of each tick on a result channel, which is fanned in and analyzed by the main goroutine and turned into graphs and statistics. Using this model I am able to run as many simulations at the same time as possible while decreasing the overhead of synchronizing the different running components because interactions between them are minimal.</p>
+
+<p><img src="/images/hypersim/pipeline.png" alt="Pipeline UML" /></p>
+
+<hr />
+
+<h2 id="results:9c8d536fa95fa263dbafb16408e41e1b">Results</h2>
+
+<h4 id="due-at-end:9c8d536fa95fa263dbafb16408e41e1b">Due at end</h4>
+
+<ul>
+<li>Assignment 1 (Due day 30)</li>
+<li>Assignment 2 (Due day 30)</li>
+</ul>
+
+<p><div id="graph3" class="graph"></div></p>
+
+<h5 id="distribution-of-work:9c8d536fa95fa263dbafb16408e41e1b">Distribution of work</h5>
+
+<p><div id="graph4" class="graph"></div></p>
+
+<h5 id="distribution-of-grades:9c8d536fa95fa263dbafb16408e41e1b">Distribution of grades</h5>
+
+<hr />
+
+<h4 id="split-evenly:9c8d536fa95fa263dbafb16408e41e1b">Split Evenly</h4>
+
+<ul>
+<li>Assignment 1 (Due day 15)</li>
+
+<li><p>Assignment 2 (Due day 30)
+<div id="graph1" class="graph"></div></p>
+
+<h5 id="distribution-of-work-1:9c8d536fa95fa263dbafb16408e41e1b">Distribution of work</h5>
+
+<p><div id="graph2" class="graph"></div></p>
+
+<h5 id="distribution-of-grades-1:9c8d536fa95fa263dbafb16408e41e1b">Distribution of grades</h5></li>
+</ul>
+
+<p>The simulated students displayed results similar to the results in the paper. The students who were given deadlines at the end of the semester fared slightly worse than those who were given deadlines that were split evenly throughout the semester.</p>
+
+<p>In the non split evenly case 22 and 21 people scored a 100 on assignment 1 and 2 respectively. In the split evenly simulation 51 and 31 people scored 100 on assignment 1 and 2 respectively. The difference in the two is not huge but it is statistically significant.</p>
+
+<p>Pay close attention to the scales of the graphs above, in the Split Grade Distribution graph the Y scale ranges from 0 to 50, while the Non-Split Grade Distribution Graph ranges from 0 to 22. The Grades are more spread out in the Non-Split graph while the Split grades are generally higher than those of the Non-Split.</p>
+
+<hr />
+
+<h2 id="code:9c8d536fa95fa263dbafb16408e41e1b">Code</h2>
+
+<p>You can find all of the code on my <a href="https://github.com/rlguarino">GitHub page</a> the <a href="https://github.com/rlguarino/hyperdsim">repo is here</a></p>
+
+<h2 id="future-work:9c8d536fa95fa263dbafb16408e41e1b">Future Work</h2>
+
+<h3 id="experiment-design:9c8d536fa95fa263dbafb16408e41e1b">Experiment Design</h3>
+
+<p>Currently this experiment is just for fun and learning on my part, if I clean up the model&rsquo;s structure and flush out some of the Economic Concepts I may be able to produce some more interesting data. Like the most human-like distributions of the variables in the simulation, or the ability to classify different people into different types, based on their attributes. Something I would be interesting in predicting the behavior of individuals.</p>
+
+<h3 id="simulation-problems:9c8d536fa95fa263dbafb16408e41e1b">Simulation Problems</h3>
+
+<h4 id="memory-consumption:9c8d536fa95fa263dbafb16408e41e1b">Memory Consumption</h4>
+
+<p>Because of poor design the simulation consumed a lot of memory, which slowed the entire simulation down considerably when some extra configuration changes were made. Increasing the Assignment list to contain three assignments consumed over 64 GB of memory.</p>
+
+<h4 id="reuse-workload-objects:9c8d536fa95fa263dbafb16408e41e1b">Reuse Workload objects</h4>
+
+<p>One of the next steps I would like to take in improving the performance of the simulation would be to implement a global pool of Workloads. The workloads would be reused by the program instead of allowing for garbage collection to claim them. Since the overhead of creating and destroying all of those Workload objects frequently can have a <a href="http://blog.cloudflare.com/recycling-memory-buffers-in-go/">2.5 increase in memory consumption than needed</a> doing so could significantly reduce the memory needed.</p>
+
+<h2 id="references:9c8d536fa95fa263dbafb16408e41e1b">References</h2>
+
+<ol>
+<li>Ariely ; &ldquo;Procrastination, Deadlines, and Performance Self-Control by Precommitment&rdquo; PS2002</li>
+<li>Frederick, Shane; Loewenstein, George; O&rsquo;Donoghue, Ted (2002). &ldquo;Time Discounting and Time Preference: A Critical Review&rdquo; Journal of Economic Literature.
+<style>
+div {}
+.graph {
+font-size: 10pt;
+}
+.axis path,
+.axis line {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
+.bar {
+fill: steelblue;
+}
+.x.axis path {
+display: none;
+}
+</style></li>
+</ol>
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 700 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+var x0 = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var x1 = d3.scale.ordinal();
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.ordinal()
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format(".2s"));
+
+var svg = d3.select("#graph1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("/files/data/students/split-time.csv", function(error, data) {
+  var assignments = d3.keys(data[0]).filter(function(key) { return key !== "Day"; });
+
+  data.forEach(function(d) {
+    d.assignments = assignments.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Day; }));
+  x1.domain(assignments).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.assignments, function(d) { return d.value; }); })]);
+
+  svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)"
+                });
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Hours Worked");
+
+  var state = svg.selectAll(".state")
+      .data(data)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" + x0(d.Day) + ",0)"; });
+
+  state.selectAll("rect")
+      .data(function(d) { return d.assignments; })
+    .enter().append("rect")
+      .attr("width", x1.rangeBand())
+      .attr("x", function(d) { return x1(d.name); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .style("fill", function(d) { return color(d.name); });
+
+  var legend = svg.selectAll(".legend")
+      .data(assignments.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+var svg2 = d3.select("#graph2").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("/files/data/students/split-grade.csv", function(error, data) {
+  var grades = d3.keys(data[0]).filter(function(key) { return key !== "Grade"; });
+
+  data.forEach(function(d) {
+    d.grades = grades.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Grade; }));
+  x1.domain(grades).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.grades, function(d) { return d.value; }); })]);
+
+  svg2.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)"
+                });
+
+  svg2.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Number of Students");
+
+  var state = svg2.selectAll(".state")
+      .data(data)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" + x0(d.Grade) + ",0)"; });
+
+  state.selectAll("rect")
+      .data(function(d) { return d.grades; })
+    .enter().append("rect")
+      .attr("width", x1.rangeBand())
+      .attr("x", function(d) { return x1(d.name); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .style("fill", function(d) { return color(d.name); });
+
+  var legend = svg2.selectAll(".legend")
+      .data(grades.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 50 )
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 55)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+
+var svg3 = d3.select("#graph3").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("/files/data/students/non-split-time.csv", function(error, data) {
+  var assignments = d3.keys(data[0]).filter(function(key) { return key !== "Day"; });
+
+  data.forEach(function(d) {
+    d.assignments = assignments.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Day; }));
+  x1.domain(assignments).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.assignments, function(d) { return d.value; }); })]);
+
+  svg3.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)"
+                });
+
+  svg3.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Hours Worked");
+
+  var state = svg3.selectAll(".state")
+      .data(data)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" + x0(d.Day) + ",0)"; });
+
+  state.selectAll("rect")
+      .data(function(d) { return d.assignments; })
+    .enter().append("rect")
+      .attr("width", x1.rangeBand())
+      .attr("x", function(d) { return x1(d.name); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .style("fill", function(d) { return color(d.name); });
+
+  var legend = svg3.selectAll(".legend")
+      .data(assignments.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+var svg4 = d3.select("#graph4").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("/files/data/students/non-split-grade.csv", function(error, data) {
+  var grades = d3.keys(data[0]).filter(function(key) { return key !== "Grade"; });
+
+  data.forEach(function(d) {
+    d.grades = grades.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.Grade; }));
+  x1.domain(grades).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.grades, function(d) { return d.value; }); })]);
+
+  svg4.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)"
+                });
+
+  svg4.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Number of Students");
+
+  var state = svg4.selectAll(".state")
+      .data(data)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" + x0(d.Grade) + ",0)"; });
+
+  state.selectAll("rect")
+      .data(function(d) { return d.grades; })
+    .enter().append("rect")
+      .attr("width", x1.rangeBand())
+      .attr("x", function(d) { return x1(d.name); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .style("fill", function(d) { return color(d.name); });
+
+  var legend = svg4.selectAll(".legend")
+      .data(grades.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 50 )
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 55)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+</script>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+                 <a href="/tags/go/">go</a>
+            
+                 <a href="/tags/economics/">economics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        <a class="icon-twitter" href="http://twitter.com/share?text=Simulating%20Students%20Procrastination%20Behavior&url=https%3a%2f%2frlguarino.com%2fpost%2fsimulatingstudents%2f"
+            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+            <i class="fa fa-twitter"></i>
+            <span class="hidden">Twitter</span>
+        </a>
+
+        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2frlguarino.com%2fpost%2fsimulatingstudents%2f"
+            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+            <i class="fa fa-facebook"></i>
+            <span class="hidden">Facebook</span>
+        </a>
+
+        <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2frlguarino.com%2fpost%2fsimulatingstudents%2f"
+           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+           <i class="fa fa-google-plus"></i>
+            <span class="hidden">Google+</span>
+        </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Coding Discourse" href="https://rlguarino.com/">Coding Discourse</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2016 / Powered by <a href="http://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://rlguarino.com/js/jquery-1.11.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+        <script src="https://rlguarino.com/js/jquery.fitvids.js"></script>
+        <script src="https://rlguarino.com/js/scripts.js"></script>
+    </body>
+</html>
+

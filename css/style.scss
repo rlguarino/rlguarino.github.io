@@ -1,0 +1,129 @@
+$font-stack:    Open Sans, sans-serif;
+$primary-color: #333;
+$concrete:#95A5A6;
+$whiteish:#f0efd1;
+$orange:#bf3211;
+$darkorange: #91170a;
+$neworange: #cc7832;
+$blackish: #191919;
+
+$break-small: 800px;
+$break-large: 1200px;
+$linktime: .25;
+
+@mixin easeout($time){
+    -webkit-transition: all #{$time}s ease-out;
+    -moz-transition: all #{$time}s ease-out;
+    -ms-transition: all #{$time}s ease-out;
+    transition: all #{$time}s ease-out;
+}
+
+@mixin easein($time){
+    -webkit-transition: all #{$time}s ease-in;
+    -moz-transition: all #{$time}s ease-in;
+    -ms-transition: all #{$time}s ease-in;
+    transition: all #{$time}s ease-in;
+}
+
+header {
+  border-bottom: solid black 2px; }
+  header nav {
+    margin-top: 5px;
+    float: right; }
+  header .blog-description {
+    margin-bottom: 5px; }
+
+img {
+  max-width: 100%; }
+
+body {
+  font: 100% Open Sans, sans-serif;
+  color: #333;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+  max-width: 1000px;
+  width: 90%; }
+
+a {
+  color: #bf3211;
+  text-decoration: none; }
+
+a:hover, a:active, a:focus {
+  text-decoration: underline; }
+
+main {
+  max-width: 100%;
+}
+
+article {
+  max-width: 70%;
+  position: relavive;
+  float: left;
+  }
+  @media screen and (max-width: $break-small) {
+    article {
+      max-width: 100%;
+      width: 100%;
+      float: none; } }
+
+article.summary {
+  max-width:100%;
+}
+
+aside {
+  max-width: 30%;
+  float: right;
+  position: relative;}
+  @media screen and (max-width: $break-small) {
+    aside {
+      max-width: 100%;
+      width: 100%;
+      float: none; } }
+  aside #tags li {
+    border-radius: 3px;
+    background: #95A5A6;
+    display: inline-block;
+    margin: 0 0px 0 5px;
+    line-height: 1;
+    padding: 4px;
+    font-size: 15px;
+    -webkit-transition: all 0.25s ease-in;
+    -moz-transition: all 0.25s ease-in;
+    -ms-transition: all 0.25s ease-in;
+    transition: all 0.25s ease-in;
+    float: left; }
+    aside #tags li:hover {
+      background: #bf3211; }
+  aside #tags li a {
+    color: #FFF;
+    text-decoration: none; }
+    aside #tags li a:before {
+      content: "#"; }
+
+.pagination{
+  border-top: solid black 1px;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+
+.pagination-prev {
+  max-width:50%;
+  float:left;
+}
+.pagination-next {
+  float:right;
+  max-width:50%;
+}
+
+.clearfix:after {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both; }
+
+footer {
+  width: 100%;
+  clear: both; }
+
+/*# sourceMappingURL=style.css.map */
