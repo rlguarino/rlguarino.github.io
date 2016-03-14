@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Powershell on Coding Discourse</title>
-    <link>https://rlguarino.github.io/tags/powershell/</link>
+    <link>https://rlguarino.com/tags/powershell/</link>
     <description>Recent content in Powershell on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Thu, 11 Feb 2016 22:39:17 -0500</lastBuildDate>
-    <atom:link href="https://rlguarino.github.io/tags/powershell/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.com/tags/powershell/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>PowerShell Reload Path</title>
-      <link>https://rlguarino.github.io/post/powershell-reload/</link>
+      <link>https://rlguarino.com/post/powershell-reload/</link>
       <pubDate>Thu, 11 Feb 2016 22:39:17 -0500</pubDate>
       
-      <guid>https://rlguarino.github.io/post/powershell-reload/</guid>
+      <guid>https://rlguarino.com/post/powershell-reload/</guid>
       <description>
 
 &lt;p&gt;I&amp;rsquo;ve started to write code to solve the little problems that annoy or slow me more than once, instead of complaining. One of these slowdowns comes from working with open source projects and installing command line utilities on Windows. I manage a C:\users\rlguarino\ProgramFiles\ directory for programs I&amp;rsquo;ve built from source or installed using an archive. Anything that is not installed using some package manager or an .mis lives here.&lt;/p&gt;

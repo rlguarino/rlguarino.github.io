@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Economics on Coding Discourse</title>
-    <link>https://rlguarino.github.io/tags/economics/</link>
+    <link>https://rlguarino.com/tags/economics/</link>
     <description>Recent content in Economics on Coding Discourse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
     <lastBuildDate>Wed, 10 Dec 2014 11:25:32 -0500</lastBuildDate>
-    <atom:link href="https://rlguarino.github.io/tags/economics/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rlguarino.com/tags/economics/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Simulating Students Procrastination Behavior</title>
-      <link>https://rlguarino.github.io/post/simulatingstudents/</link>
+      <link>https://rlguarino.com/post/simulatingstudents/</link>
       <pubDate>Wed, 10 Dec 2014 11:25:32 -0500</pubDate>
       
-      <guid>https://rlguarino.github.io/post/simulatingstudents/</guid>
+      <guid>https://rlguarino.com/post/simulatingstudents/</guid>
       <description>
 
 &lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/d3/3.5.1/d3.min.js&#34;&gt; &lt;/script&gt;
@@ -134,7 +134,7 @@ type Person struct{
 
 &lt;p&gt;I used a pattern I have used a lot recently. I have found this pattern very powerful and extremely applicable. The design pattern I followed is called the pipeline pattern which is extremely easy to implement in golang. For each person in the simulation I spin up a goroutine that simulates that student going through each day in the semester outputting state of each tick on a result channel, which is fanned in and analyzed by the main goroutine and turned into graphs and statistics. Using this model I am able to run as many simulations at the same time as possible while decreasing the overhead of synchronizing the different running components because interactions between them are minimal.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rlguarino.github.io/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rlguarino.com/images/hypersim/pipeline.png&#34; alt=&#34;Pipeline UML&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
