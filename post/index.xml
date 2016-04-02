@@ -7,8 +7,64 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 11 Feb 2016 22:39:17 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 02 Apr 2016 11:31:44 -0400</lastBuildDate>
     <atom:link href="https://rlguarino.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remote Virt-Manager for Xen without Root</title>
+      <link>https://rlguarino.com/post/lib-virt-xen/</link>
+      <pubDate>Sat, 02 Apr 2016 11:31:44 -0400</pubDate>
+      
+      <guid>https://rlguarino.com/post/lib-virt-xen/</guid>
+      <description>
+
+&lt;h1 id=&#34;background:6beabe46819a7408315f487e9b8157ce&#34;&gt;Background&lt;/h1&gt;
+
+&lt;p&gt;This post is for setting up remote Virt-Manager access to a Xen hypervisor using ssh. The &lt;a href=&#34;https://wiki.debian.org/libvirt/xen&#34;&gt;Debian guide to using LibVirt with Xen&lt;/a&gt; is incomplete with regards to this topic.&lt;/p&gt;
+
+&lt;p&gt;To get started I&amp;rsquo;m assuming that you already have a working Xen hypervisor installed. Along with local LibVirt access.&lt;/p&gt;
+
+&lt;p&gt;To get to this point you can follow the &lt;a href=&#34;http://wiki.xenproject.org/wiki/Xen_Project_Beginners_Guide&#34;&gt;Xen Project Beginners Guide&lt;/a&gt;
+, which will guide you through the process of setting up a Debian Dom0 using lvm volmues for DomU images. For help setting up LibVirt
+storage pools on Xen you can visit the Debian docs &lt;a href=&#34;https://wiki.debian.org/libvirt/xen&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For security reasons I&amp;rsquo;m assuming that SSH on Dom0 is configured to disallow remote root login and password authentication.&lt;/p&gt;
+
+&lt;h1 id=&#34;configure-non-root-access-to-libvirt:6beabe46819a7408315f487e9b8157ce&#34;&gt;Configure Non-Root Access to LibVirt&lt;/h1&gt;
+
+&lt;p&gt;To allow connections to the LibVirt daemon over Unix Sockets without using the Root user you need to configure
+the LibVirt daemon to use a different group for its socket.&lt;/p&gt;
+
+&lt;p&gt;If it does not already exist you should create a group called &amp;lsquo;libvirt&amp;rsquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;groupadd libvirt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now your remote user to the &amp;lsquo;libvirt&amp;rsquo; group:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;usermod -aG libvirt &amp;lt;username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Edit the file &lt;code&gt;/etc/libvirt/libvirtd.conf&lt;/code&gt; and add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;unix_sock_group = &amp;quot;libvirt&amp;quot;
+unix_sock_ro_perms = &amp;quot;0777&amp;quot;
+unix_sock_rw_perms = &amp;quot;0770&amp;quot;
+auth_unit_rw = &amp;quot;none&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now restart the libvirtd daemon:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service libvirtd restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you should be able to connect to the xen hypervisor from a remote virt-mangaer. Remember to setup your ssh keys.&lt;/p&gt;
+
+&lt;p&gt;If you have already started virtual machines using the &lt;code&gt;xl&lt;/code&gt; command do not worry if you do not see them when you connect,
+due to &lt;a href=&#34;https://jfehlig.wordpress.com/2014/01/05/libvirt-support-for-xens-new-libxenlight-toolstack&#34;&gt;missing features&lt;/a&gt;
+that is expected behavior.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>PowerShell Reload Path</title>
