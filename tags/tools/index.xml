@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tools on Coding Discourse</title>
+    <link>https://rlguarino.com/tags/tools/</link>
+    <description>Recent content in Tools on Coding Discourse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2014 - 2016, Ross Guarino; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 07 Apr 2016 17:52:42 -0700</lastBuildDate>
+    <atom:link href="https://rlguarino.com/tags/tools/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Use salt to setup sshd and public key auth.</title>
+      <link>https://rlguarino.com/post/salt-user/</link>
+      <pubDate>Thu, 07 Apr 2016 17:52:42 -0700</pubDate>
+      
+      <guid>https://rlguarino.com/post/salt-user/</guid>
+      <description>
+
+&lt;p&gt;I’ve started to use salt stack to setup and mange Virtual Machines on my home network. To test the waters
+I set out to automate the setup of a default user account with my ssh key as an authorized key. I also use salt
+to configure the ssh daemon to only accept incoming connections using public key authentication from the ssh group.
+I&amp;rsquo;m posting this here as a reference for a future version of myself and hopefully it can help someone else.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s start at the top, with the top files.&lt;/p&gt;
+
+&lt;p&gt;The Salt Top file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/top.sls
+---
+base:
+  &#39;*&#39;:
+    - ssh
+    - ssh.conf
+    - ssh.group
+    - users
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are four states here which are important.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The top ssh state installs the ssh daemon.&lt;/li&gt;
+&lt;li&gt;The ssh.conf state configures sshd with some non-default options.&lt;/li&gt;
+&lt;li&gt;The ssh.group state creates the ssh group.&lt;/li&gt;
+&lt;li&gt;The users state ensure my default user is present with my ssh key installed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Pillar Top file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/pillar/top.sls
+---
+base:
+  &#39;*&#39;:
+    - users
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The pillar top file contains configuration information for the users to be setup. Since I&amp;rsquo;m setting up
+the base of my system the top files are very simple. No complicated globing here yet.&lt;/p&gt;
+
+&lt;h1 id=&#34;install-sshd:54fe88e127a0f186ca988ca878b7d5ef&#34;&gt;Install SSHD&lt;/h1&gt;
+
+&lt;p&gt;Installing sshd is handled by the ssh state. The salt files for installing ssh are &lt;code&gt;/srv/salt/ssh/init.sls&lt;/code&gt;
+and &lt;code&gt;/srv/salt/ssh/map.jinja&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/ssh/map.jinja
+---
+{% set ssh = salt[&#39;grains.filter_by&#39;]({
+    &#39;Debian&#39;: {
+      &#39;package&#39;: &#39;openssh-server&#39;,
+      &#39;service&#39;: &#39;ssh&#39;,
+      &#39;confdir&#39;: &#39;/etc/ssh/&#39;,
+      &#39;sshd_config_name&#39;: &#39;sshd_config&#39;,
+    },
+    &#39;RedHat&#39;: {
+      &#39;package&#39;: &#39;openssh-server&#39;,
+      &#39;service&#39;: &#39;sshd&#39;,
+      &#39;confdir&#39;: &#39;/etc/ssh/&#39;,
+      &#39;sshd_config_name&#39;: &#39;sshd_config&#39;,
+    },
+}) %}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The map.jinja file defines variables used to install ssh on different operating systems. map.jinja files
+are executed before the sls files for that module and are useful for overriding variables. In this one
+the ssh variable is set depending on the operating system. This means the state deceleration can
+reference these variables and be able to target multiple operating systems without complex jinja logic.&lt;/p&gt;
+
+&lt;p&gt;Here is the state that uses the ssh variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/ssh/init.sls
+---
+{% from &amp;quot;ssh/map.jinja&amp;quot; import ssh with context %}
+
+ssh:
+  pkg.installed:
+    - name: {{ssh.package}}
+  service.running:
+    - name: {{ssh.service}}
+    - enable: True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The ssh/init.sls file first import the ssh/map.jinja file and it&amp;rsquo;s variable ssh. Then it uses pkg.installed
+and service.running states to ensure ssh is both installed and configured to start at boot.&lt;/p&gt;
+
+&lt;h1 id=&#34;configure-sshd:54fe88e127a0f186ca988ca878b7d5ef&#34;&gt;Configure SSHD&lt;/h1&gt;
+
+&lt;p&gt;On my vm minions I wanted to set a few options for sshd. The contents of the sshd_config contained:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/ssh/files/sshd_config
+---
+PasswordAuthentication no
+PermitRootLogin no
+PasswordAuthentication no
+ClientAliveInterval 300
+ClientAliveCountMax 0
+AllowGroups ssh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This sets a few security related options. Most notably it restricts access to users in the ssh group
+and disables Password Authentication. This means that my user account will need to belong to the
+group ssh and have a public key installed.&lt;/p&gt;
+
+&lt;p&gt;Configuration of sshd is handled by a separate &amp;ldquo;ssh.conf&amp;rdquo; state. This allows other minions to install
+the ssh server without overriding the configuration if they have no need to.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file:/srv/salt/ssh/conf.sls
+---
+{% from &amp;quot;ssh/map.jinja&amp;quot; import ssh with context %}
+
+sshd_conf:
+  file.append:
+    - name: {{ssh.confdir}}{{ssh.sshd_config_name}}
+    - source: {{ pillar[&#39;sshd&#39;][&#39;config&#39;][&#39;source&#39;] }}
+    - user: root
+    - watch_in:
+      - service: {{ssh.service}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The watch_in argument tells salt that when the ssh_conf state is applied salt should restart the ssh service.&lt;/p&gt;
+
+&lt;p&gt;The location of the ssh configuration template is set in pillar.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/ssh.sls
+---
+sshd:
+ config:
+   source: salt://ssh/files/sshd_config
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This pillar file simply defines the location of a file, it&amp;rsquo;s included in pillar for &amp;lsquo;*&amp;lsquo;, every,
+minion. In the future, if I want to setup different sshd configurations for some minions this will let me with
+minimal files affected.&lt;/p&gt;
+
+&lt;h1 id=&#34;create-ssh-group:54fe88e127a0f186ca988ca878b7d5ef&#34;&gt;Create SSH Group&lt;/h1&gt;
+
+&lt;p&gt;Since sshd is going to restrict access to members of the ssh group we need salt to ensure that the
+group exists. The salt state that handles this is &amp;lsquo;ssh.group&amp;rsquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/ssh/group.sls
+---
+ssh_group:
+  group.present:
+    - name: {{ salt[&#39;pillar.get&#39;](&#39;ssh:group&#39;, &#39;ssh&#39;) }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This state optionally loads the name of the ssh group from pillar but defaults to the &amp;lsquo;ssh&amp;rsquo; group.&lt;/p&gt;
+
+&lt;h1 id=&#34;setup-users:54fe88e127a0f186ca988ca878b7d5ef&#34;&gt;Setup Users&lt;/h1&gt;
+
+&lt;p&gt;Next we setup the default users on the system and their private keys. The user data is defined in pillar to keep it secure.&lt;/p&gt;
+
+&lt;p&gt;The users pillar data:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/pillar/users/init.sls
+---
+users:
+  - name: rlg
+    groups:
+      - ssh
+    authkey: ssh-rsa &amp;lt;key-data&amp;gt;== &amp;lt;key-comment&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Users state:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;file: /srv/salt/users/init.sls
+---
+{% for user in pillar[&#39;users&#39;]  %}
+
+user_{{user.name}}:
+  group.present:
+    - name: {{user.name}}
+  user.present:
+    - name: {{user.name}}
+    - home: /home/{{user.name}}
+    - groups:
+      - {{ user.name }}
+    - optional_groups:
+  {% for group in user.groups %}
+      - {{ group }}
+  {% endfor %}
+    - createhome: True
+    - remove_groups: False
+
+user_{{user.name}}_ssh:
+  file.directory:
+    - name: /home/{{user.name}}/.ssh
+    - user: {{user.name}}
+    - group: {{user.name}}
+    - mode: 0700
+  ssh_auth.present:
+    - user: {{user.name}}
+    - name: {{user.authkey}}
+
+{% endfor %}
+
+This state ensure that the user is present on the system. It also ensure that the public key for that 
+user is setup in it&#39;s authorized keys file.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;With the files in place you should be able to apply the states&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;salt &#39;*&#39; state.apply test=True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use the &lt;code&gt;test=True&lt;/code&gt; flag to inspect what will happen to your systems. If it looks good to you then
+remove &lt;code&gt;test=True&lt;/code&gt; to apply the changes to your system. You should not be able to ssh into all of
+hose machines with the user and key pair you defined.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m new to this and I&amp;rsquo;m sure I&amp;rsquo;ve made a couple of mistakes so I&amp;rsquo;d love to hear your feedback and suggestions. If you&amp;rsquo;ve made it this far you deserve a cookie, thanks for reading!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remote Virt-Manager for Xen without root</title>
+      <link>https://rlguarino.com/post/remote-virt-manager/</link>
+      <pubDate>Sat, 02 Apr 2016 17:52:30 -0700</pubDate>
+      
+      <guid>https://rlguarino.com/post/remote-virt-manager/</guid>
+      <description>
+
+&lt;h1 id=&#34;background:f1cb3a443bd9d1f48f6ba067fd83b297&#34;&gt;Background&lt;/h1&gt;
+
+&lt;p&gt;This post is for setting up remote Virt-Manager access to a Xen hypervisor
+using ssh. The &lt;a href=&#34;ihttps://wiki.debian.org/libvirt/xen&#34;&gt;Debian guide to using LibVirt with Xen&lt;/a&gt;
+is incomplete with regards to this topic. This is something that I know I will need again in
+the future so I&amp;rsquo;m posting it here for my own reference and in the chance it
+will help anyone in the future.&lt;/p&gt;
+
+&lt;p&gt;To get started I’m assuming that you already have a working Xen hypervisor installed with
+local LibVirt access.&lt;/p&gt;
+
+&lt;p&gt;To get to this point you can follow the &lt;a href=&#34;http://wiki.xenproject.org/wiki/Xen_Project_Beginners_Guide&#34;&gt;Xen Project Beginners Guide&lt;/a&gt;,
+which will guide you through the process of setting up a Debian Dom0 using lvm volmues for DomU images. For help
+setting up LibVirt storage pools on Xen you can visit the Debian docs &lt;a href=&#34;https://wiki.debian.org/libvirt/xen&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For security reasons I’m assuming that SSH on Dom0 is configured to disallow remote root login and password authentication.&lt;/p&gt;
+
+&lt;h1 id=&#34;configure-non-root-access-to-libvirt:f1cb3a443bd9d1f48f6ba067fd83b297&#34;&gt;Configure Non-Root Access to LibVirt&lt;/h1&gt;
+
+&lt;p&gt;To allow connections to the LibVirt daemon over Unix Sockets without using the Root user you need to configure the LibVirt
+daemon to use a different group for its socket.&lt;/p&gt;
+
+&lt;p&gt;If it does not already exist you should create a group called ‘libvirt’:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;group add libvirt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now your remote user to the ‘libvirt’ group:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;usermod -aG libvirt &amp;lt;username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Edit the file /etc/libvirt/libvirtd.conf and add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;unix_sock_group = &amp;quot;libvirt&amp;quot;
+unix_sock_ro_perms = &amp;quot;0777&amp;quot;
+unix_sock_rw_perms = &amp;quot;0770&amp;quot;
+auth_unit_rw = &amp;quot;none&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now restart the libvirtd daemon:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service libvirtd restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you should be able to connect to the xen hypervisor from a remote virt-mangaer. Remember to setup your ssh keys.&lt;/p&gt;
+
+&lt;p&gt;If you have already started virtual machines using the xl command do not worry if you do not see them when you connect,
+due to &lt;a href=&#34;https://jfehlig.wordpress.com/2014/01/05/libvirt-support-for-xens-new-libxenlight-toolstack&#34;&gt;missing features&lt;/a&gt;
+that is expected behavior.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
